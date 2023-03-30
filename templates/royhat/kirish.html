@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kirish</title>
+    <link rel="stylesheet" href="{% static '/register.css' %}" />
+  </head>
+  <body>
+
+    <section class="wrapper active">
+
+      <div class="form signup">
+        <header>Kirish</header>
+        <!-- {% csrf_token %} -->
+        <form action="#" method="post">
+          {% csrf_token %}
+          <input name="username" type="text" placeholder="ID">
+          <input name="password" type="password" placeholder="Parol">
+          <input type="submit" value="Kirish" />
+          <a href="{% url 'royhat' %}">Ro'yxatdan o'tish</a>
+        </form>
+      </div>
+
+      <script>
+      </script>
+    </section>
+  </body>
+</html>

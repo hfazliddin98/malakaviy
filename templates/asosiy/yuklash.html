@@ -1,0 +1,26 @@
+     
+{% load static %}
+<main class="main h-100">
+    <div class="container px-4">
+        <div class="heading mb-4">
+            <h2 class="mt-4 text-center">Talabalar ro'yxati</h2>
+            <h4 class="text-center">Minimum uchun hujjatlarni yuborgan talabalar</h4>
+        </div>
+       
+        {% for i in data %}                       
+            
+        <ul class="list-student list-unstyled p-2">
+            <li class="item-student border-bottom border-primary d-flex align-items-center justify-content-between mb-2 px-3">
+                <a class="yuklash-link text-decoration-none" href="{% url 'link' i.pk%}" style="font-size: 26px;">{{i.ism | title}}</a>
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+</main>
+   
+
+                
+
+
+
+                

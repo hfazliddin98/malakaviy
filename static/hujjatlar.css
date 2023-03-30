@@ -1,0 +1,39 @@
+
+body {
+  background: #f0faff !important;
+}
+.container {
+  max-width: 1200px !important;
+}
+.hujjatlar-title {
+}
+.hujjatlar {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.fan-nomi {
+  font-size: 24px;
+}
+.hujjat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border: 1px solid #535ba4;
+  border-radius: 8px;
+  background: #fff;
+}
+.fan-nomi {
+  font-size: 22px;
+}
+.hujjat-link:hover {
+  text-decoration: none;
+}
+
+@media screen and (max-width:600px)  {
+  .fan-nomi {
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registratsiya</title>
+    <link rel="stylesheet" href="{% static '/register.css' %}" />
+  </head>
+  <body>
+    <section class="wrapper">
+      <div class="form signup">
+        <header>Ro'yxatdan o'tish</header>
+        <form action="#" method="post">
+          {% csrf_token %}
+          <input type="text" name="username" placeholder="ID">
+          <input type="text" name="familya" placeholder="Familiyangiz">
+          <input type="text" name="ism" placeholder="Ismingiz">
+          <input type="text" name="sharif" placeholder="Sharifingiz">
+          <input type="text" name="telefon" placeholder="Telefon nomeringiz">
+          <input type="text" name="password1" placeholder="Parol kiriting">
+          <input type="text" name="password2" placeholder="Parolni tasdiqlang">
+          <input type="submit" value="Saqlash" />
+          <a href="{% url 'kirish' %}">Kirish</a>
+        </form>
+      </div>
+
+      <script>
+      </script>
+    </section>
+  </body>
+</html>

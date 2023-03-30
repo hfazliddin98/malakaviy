@@ -1,0 +1,116 @@
+{% load static %}
+<!-- <!DOCTYPE html> -->
+<!-- <html lang="en"> -->
+<!-- <head> -->
+    <!-- <meta charset="UTF-8"> -->
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- FAVICON -->
+    <!-- <link rel="shortcut icon" href="{% static '/image/QDPI.png' %}" type="image/x-icon"> -->
+    <!-- BOOTSTRAP -->
+    <!-- <link rel="stylesheet" href="{% static '/bootsrtap/css/bootstrap.min.css' %}"> -->
+    <!-- <link rel="stylesheet" href="{% static '/yangilik/bootsrtap/css/bootstrap.min.css' %}"> -->
+    <!-- MY CSS -->
+    <!-- <link rel="stylesheet" href="{% static '/css/style.css' %}"> -->
+    <!-- <link rel="stylesheet" href="{% static '/yangilik/css/style.css' %}"> -->
+    <!-- <title>Axborot-resurs markazi</title> -->
+    <!-- </head> -->
+    <!-- <body> -->
+        <!-- {% if user.is_authenticated %} -->
+
+        <!-- {% if user.is_superuser %} -->
+        <!-- <div class="container-fluid row m-0 p-0">
+            <div class="col vh-100 m-0 p-0">
+                <a action="{% url 'home' %}" class="nav-link active m-0 h5" aria-current="page" href="{% url 'logout' %}"  >Chiqish</a>
+                <a href="{% url 'yuklash' %}">malumotlar</a>
+            </div>
+        </div> -->
+        <!-- {% else %} -->
+        <!-- <div class="container-fluid row m-0 p-0">
+            <div class="col vh-100 m-0 p-0">
+                <a action="{% url 'home' %}" class="nav-link active m-0 h5" aria-current="page" href="{% url 'logout' %}"  >Chiqish</a>
+                <a href="{% url 'fayl' %}">malumot kiritish</a>
+            </div>
+        </div> -->
+        <!-- {% endif %} -->
+
+
+        <!-- {% else%} -->
+        <!-- <div class="container-fluid row m-0 p-0">
+            <div class="col vh-100 m-0 p-0">
+                <a href="{% url 'kirish' %}">kirish</a>
+                <a href="{% url 'royhat' %}">royhatdan otish</a>
+            </div>
+        </div> -->
+        <!-- {% endif %} -->
+
+        <!-- JS FAYL BOOTSTRAP-->
+        <!-- <script src="{% static '/bootsrtap/js/bootstrap.bundle.min.js' %}"></script> -->
+        <!-- <script src="{% static '/yangilik/bootsrtap/js/bootstrap.bundle.min.js' %}"></script> -->
+        <!-- MY JS -->
+        <!-- <script src="{% static '/js/app.js' %}"></script> -->
+        <!-- <script src="{% static '/yangilik/js/app.js' %}"></script> -->
+        <!-- </body> -->
+        <!-- </html> -->
+
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+            <!-- BOOTSTRAP -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+            <link rel="stylesheet" href="{% static '/home.css' %}">
+            <link rel="stylesheet" href="{% static '/main.css' %}">
+            <link rel="stylesheet" href="{% static '/yuklash.css' %}">
+            
+
+            <title>Home</title>
+        </head>
+        <body>
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}                 
+                    {% include 'asosiy/navbar.html' %} 
+                    {% include 'asosiy/yuklash.html' %}                                    
+                    <a action="{% url 'home' %}" class="nav-link active m-0 h5" aria-current="page" href="{% url 'logout' %}"  >Chiqish</a>
+                {% else%}
+                    {% include 'asosiy/navbar.html' %} 
+                    {% include 'asosiy/fayl.html' %}                    
+                    {% include 'asosiy/futer.html' %}
+                    <a action="{% url 'home' %}" class="nav-link active m-0 h5" aria-current="page" href="{% url 'logout' %}"  >Chiqish</a>
+                    <a href="{% url 'fayl' %}">malumot kiritish</a>
+                {% endif %}
+            {% else%}
+                {% include 'asosiy/navbar.html' %}
+                {% include 'asosiy/kirish.html' %}
+                {% include 'asosiy/namuna.html' %}
+                {% include 'asosiy/futer.html' %}
+            {% endif %}       
+
+            
+
+            <script>
+                // NAMUNALAR
+                const texts = document.querySelectorAll('.namuna-text')
+                const textImgs = document.querySelectorAll('.namuna-img')
+
+                texts.forEach((text) => {
+                    text.addEventListener('click', (e)=> {
+                        if(e.target) {
+                            e.target.nextElementSibling.classList.toggle('namuna-img-active')
+                        }
+                    })
+                })
+            </script>
+        </body>
+        </html>
