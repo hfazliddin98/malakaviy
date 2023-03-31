@@ -32,6 +32,9 @@
         {% for i in data %} 
             <div class="container send">
                 <span class="send-text">{{i.ism | title}} {{i.familya | title}} ariza malumotlarini yuklab olish</span>
+                <span class="d-none" id="sana-01">
+                    {{i.sana}}
+                </span>
                 <a class="send-link button" href="{% url 'link' i.pk%}">
                 <i class="fa-solid fa-download" style="color: #ffffff;"></i>
                 <span>Yuklash</span>
@@ -40,6 +43,10 @@
         {% endfor %}
     </div>
 </main>
+<script>
+  const data = document.querySelector('#sana-01')
+  console.log(data.textContent)  
+</script>
    
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 

@@ -33,13 +33,10 @@
                     <a action="{% url 'home' %}" class="nav-link active m-0 h5" aria-current="page" href="{% url 'logout' %}"  >Chiqish</a>
                 {% else%}                    
                     {% include 'asosiy/navbar.html' %}
-                    <div class="alert alert-primary text-center" role="alert">
-                        {{habar}}
-                      </div>
+                    <p class="text-center">{{habar}}</p>                    
                     {% include 'asosiy/fayl.html' %}                    
                     {% include 'asosiy/futer.html' %}
-                    <a action="{% url 'home' %}" class="nav-link active m-0 h5" aria-current="page" href="{% url 'logout' %}"  >Chiqish</a>
-                    <a href="{% url 'fayl' %}">malumot kiritish</a>
+                    <a action="{% url 'home' %}" class="nav-link active m-0 h5" aria-current="page" href="{% url 'logout' %}"  >Chiqish</a>                   
                 {% endif %}
             {% else%}
                 {% include 'asosiy/navbar.html' %}
