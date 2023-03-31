@@ -1,25 +1,16 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.core.paginator import Paginator
 from .models import User
-from files.models import Fayl, Sana, Namuna
 
 
 
 
 
-def home(request):  
-    fayllar = Fayl.objects.all()  
-    namuna = Namuna.objects.all()  
-    context = {
-        'data':fayllar,
-        'namunalar':namuna,        
-    }
-    return render(request, 'asosiy/home.html', context)  
-    
+def home(request):    
+    return render(request, 'asosiy/home.html')
 
 
 def kirish(request):
@@ -63,13 +54,3 @@ def royhat(request):
             return redirect('/kirish')
     
     return render(request, 'royhat/royhat.html', {'habar':habar})
-
-
-
-def javob(request, pk):
-    fayl = Fayl.objects.get(id=pk)
-    contex = {
-        'javob':fayl,
-    }
-    return render(request, 'asosiy/hujjatlar.html', contex)
-

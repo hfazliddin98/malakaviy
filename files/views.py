@@ -11,14 +11,19 @@ def namuna(request):
     }
     return render(request, 'asosiy/namunalar.html', contex)
 
-def namunalar(request, pk):
-    fayl = Namuna.objects.get(id=pk)
+# def namunalar(request, pk):
+#     fayl = Namuna.objects.get(id=pk)
+#     contex = {
+#         'namunalar' : fayl,
+#     }
+#     return render(request, 'asosiy/namunalar.html', contex)
+
+def javob(request, pk):
+    fayl = Fayl.objects.get(id=pk)
     contex = {
-        'namunalar' : fayl,
+        'javob':fayl,
     }
-    return render(request, 'asosiy/namunalar.html', contex)
-
-
+    return render(request, 'asosiy/hujjatlar.html', contex)
 
 def sana(request):
     vaqt = Sana.objects.all()
