@@ -9,14 +9,16 @@ def namuna(request):
     contex = {
         'link' : link,
     }
-    return render(request, 'asosiy/fayl.html', contex)
+    return render(request, 'asosiy/namunalar.html', contex)
 
-def javob(request, pk):
-    fayl = Fayl.objects.get(id=pk)
+def namunalar(request, pk):
+    fayl = Namuna.objects.get(id=pk)
     contex = {
-        'javob':fayl,
+        'namunalar' : fayl,
     }
-    return render(request, 'asosiy/hujjatlar.html', contex)
+    return render(request, 'asosiy/namunalar.html', contex)
+
+
 
 def sana(request):
     vaqt = Sana.objects.all()
@@ -40,5 +42,5 @@ def fayl(request):
         royhat = request.FILES['royhat']                              
         fayl =Fayl.objects.create(ism=ism,familya=familya,fan=fan,pasport=pasport,diplom=diplom,ariza=ariza,malumotnoma=malumotnoma,anketa=anketa,kochirma=kochirma,yollanma=yollanma,royhat=royhat)
         fayl.save()
-        return HttpResponse('qosildi')
+        return redirect('/')
     return render(request, 'asosiy/baza.html')

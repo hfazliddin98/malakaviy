@@ -13,15 +13,11 @@
   <title>Document</title>
 </head>
 <body>
-
   <div class="hujjatlar">
-    <div class="container">
-      <h2 class="hujjatlar-title" style="text-align: center;">{{javob.familya | title}} {{javob.ism | title}}</h2>
-      <div class="hujjatlar-inner">
-        <p class="fan-nomi" style="text-align: center;">{{javob.fan}}</p>
+    <div class="container">      
         <div class="hujjat">
           <span class="hujjat-turi">1. Passport</span>
-          <a class="hujjat-link" download="" href="{{javob.pasport.url}}">Yuklab olish</a>
+          <a class="hujjat-link" download="" href="{{namunalar.pasport}}">Yuklab olish</a>
         </div>
         <div class="hujjat">
           <span class="hujjat-turi">2. Diplomlar</span>
@@ -54,6 +50,5 @@
       </div>
     </div>
   </div>
-
 </body>
 </html>

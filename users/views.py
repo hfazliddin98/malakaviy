@@ -5,14 +5,19 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.core.paginator import Paginator
 from .models import User
-from files.models import Fayl
+from files.models import Fayl, Sana
 
 
 
 
 
-def home(request):    
-    return render(request, 'asosiy/home.html')
+def home(request):  
+    fayllar = Fayl.objects.all()
+    context = {
+        'data':fayllar,
+    }
+    return render(request, 'asosiy/home.html', context)  
+    
 
 
 def kirish(request):
@@ -58,12 +63,6 @@ def royhat(request):
     return render(request, 'royhat/royhat.html', {'habar':habar})
 
 
-def yuklash(request):
-    fayllar = Fayl.objects.all()
-    context = {
-        'data':fayllar,
-    }
-    return render(request, 'asosiy/home.html', context)
 
 def javob(request, pk):
     fayl = Fayl.objects.get(id=pk)
