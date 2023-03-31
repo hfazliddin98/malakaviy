@@ -31,8 +31,11 @@
                     {% include 'asosiy/navbar.html' %} 
                     {% include 'asosiy/yuklash.html' %}                                    
                     <a action="{% url 'home' %}" class="nav-link active m-0 h5" aria-current="page" href="{% url 'logout' %}"  >Chiqish</a>
-                {% else%}
-                    {% include 'asosiy/navbar.html' %} 
+                {% else%}                    
+                    {% include 'asosiy/navbar.html' %}
+                    <div class="alert alert-primary text-center" role="alert">
+                        {{habar}}
+                      </div>
                     {% include 'asosiy/fayl.html' %}                    
                     {% include 'asosiy/futer.html' %}
                     <a action="{% url 'home' %}" class="nav-link active m-0 h5" aria-current="page" href="{% url 'logout' %}"  >Chiqish</a>

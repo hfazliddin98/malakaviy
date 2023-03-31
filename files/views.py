@@ -33,6 +33,7 @@ def sana(request):
     return render(request, 'asosiy/fayl.html', contex)
 
 def fayl(request):
+    habar = ''
     if request.method == 'POST':
         ism = request.POST['ism']
         familya = request.POST['familya']
@@ -47,5 +48,8 @@ def fayl(request):
         royhat = request.FILES['royhat']                              
         fayl =Fayl.objects.create(ism=ism,familya=familya,fan=fan,pasport=pasport,diplom=diplom,ariza=ariza,malumotnoma=malumotnoma,anketa=anketa,kochirma=kochirma,yollanma=yollanma,royhat=royhat)
         fayl.save()
-        return redirect('/')
+        habar = 'Muvaffaqiyatli qo`shildi !!! '
+        return render(request, 'asosiy/home.html', {
+            'habar':habar,
+        })
     return render(request, 'asosiy/baza.html')
