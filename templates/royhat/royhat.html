@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registratsiya</title>
+    <link rel="shortcut icon" href="{% static '/img/logo.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static '/register.css' %}" />
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
   </head>
   <body>
     <section class="wrapper">
@@ -14,20 +16,64 @@
         <header>Ro'yxatdan o'tish</header>
         <form action="#" method="post">
           {% csrf_token %}
-          <input type="text" name="username" placeholder="ID">
+          <input type="text" name="username" placeholder="Login(yarating)">
           <input type="text" name="familya" placeholder="Familiyangiz">
           <input type="text" name="ism" placeholder="Ismingiz">
           <input type="text" name="sharif" placeholder="Sharifingiz">
-          <input type="text" name="telefon" placeholder="Telefon nomeringiz">
-          <input type="text" name="password1" placeholder="Parol kiriting">
-          <input type="text" name="password2" placeholder="Parolni tasdiqlang">
+          <div class="field">
+            <input id="inp_1" class="pass-key" type="password" name="password1" placeholder="Parol kiriting(Kamida 8ta belgi)" pattern=".{8,}" title="Belgilar soni 8-tadan kam bo'lmasligi kerak.!">
+            <span id="span_1" class="show">KO'RISH</span>
+          </div>
+          <div class="field">
+            <input id="inp_2" class="pass-key" type="password" name="password2" placeholder="Parolni qayta kiriting" pattern=".{8,}" title="Belgilar soni 8-tadan kam bo'lmasligi kerak.!">
+            <span id="span_2" class="show">KO'RISH</span>
+          </div>
           <input type="submit" value="Saqlash" />
           <a href="{% url 'kirish' %}">Kirish</a>
         </form>
       </div>
 
-      <script>
-      </script>
     </section>
+   
+    <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script>
+
+      const input1 = document.getElementById('inp_1')
+      const input2 = document.getElementById('inp_2')
+
+      const span1 = document.getElementById('span_1')
+      const span2 = document.getElementById('span_2')
+
+      span1.addEventListener( 'click', opCl1)
+      span2.addEventListener( 'click', opCl2)
+      
+
+
+      function opCl1() {
+          if(input1.type === "password") {
+            input1.type = "text"
+            span1.textContent = "YASHIRISH"
+            span1.style.color = "#3498db"
+          } else {
+            input1.type = "password"
+            span1.textContent = "KO'RISH"
+            span1.style.color = "#222"
+          }
+      }
+      
+      function opCl2() {
+        if(input2.type === "password") {
+          input2.type = "text"
+          span2.textContent = "YASHIRISH"
+          span2.style.color = "#3498db"
+        } else {
+          input2.type = "password"
+          span2.textContent = "KO'RISH"
+          span2.style.color = "#222"
+        }
+    }
+    </script>
+
   </body>
 </html>

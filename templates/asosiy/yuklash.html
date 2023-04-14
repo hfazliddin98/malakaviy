@@ -18,37 +18,82 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- BOOTSTRAP -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="shortcut icon" href="{% static '/img/logo.png' %}" type="image/x-icon">
+  
+  <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
 </head>
 <body>
 
-<main class="main h-100">
-    <div class="container px-4">
-        <div class="heading mb-4">
-            <h2 class="mt-4 text-center">Talabalar ro'yxati</h2>
-            <h4 class="text-center">Minimum uchun hujjatlarni yuborgan talabalar</h4>
-        </div>
-       
-        {% for i in data %} 
-            <div class="container send">
+  <main class="main h-100">
+      <div class="container px-4 mh-100" id="sana-01">
+          <div class="heading mb-4">
+              <h2 class="mt-4 text-center">Talabalar ro'yxati</h2>
+              <h4 class="text-center">Minimum uchun hujjatlarni yuborgan talabalar</h4>
+          </div>
+        
+          
+          
+
+          
+          {% for i in page.object_list %} 
+              <div class="container send my-2">
                 <span class="send-text">{{i.ism | title}} {{i.familya | title}} ariza malumotlarini yuklab olish</span>
-                <span class="d-none" id="sana-01">
-                    {{i.sana}}
+                <span class="d-none">                      
                 </span>
-                <a class="send-link button" href="{% url 'link' i.pk%}">
+                <a class="send-link button text-white" href="{% url 'link' i.pk%}">
                 <i class="fa-solid fa-download" style="color: #ffffff;"></i>
                 <span>Yuklash</span>
                 </a>
-            </div>       
-        {% endfor %}
-    </div>
-</main>
-<script>
-  const data = document.querySelector('#sana-01')
-  console.log(data.textContent)  
-</script>
+              </div>       
+          {% endfor %}
+          
+
+
+          
+                
+
+              
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <li class="page-item">
+                {% if page.has_previous %}
+                  <a class="page-link" href="{% url 'home' %}?page={{ page.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                {% endif %}
+              </li>
+              <li class="page-item">
+                {% for nomer in page.paginator.page_range %}
+                  {% if page.number == nomer %}
+                    <li class="page-item  active"><a class="page-link" href="{% url 'home' %}?page={{ nomer }}">{{nomer}}</a></li>
+                  {% else %}
+                    <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ nomer }}">{{nomer}}</a></li>
+                  {% endif %}
+                {% endfor %}
+              </li>              
+              
+              <li class="page-item">
+                {% if page.has_next %}
+                  <a class="page-link" href="{% url 'home' %}?page={{ page.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                {% endif %}
+              </li>
+            </ul>
+          </nav>          
+              
+      </div>
+  </main>
+  <script>
+    const func = async () => {
+      const data = await document.querySelector('#sana-01')
+      let resualt = await data.innerHTML
+      await console.log(resualt);
+    }
+    func()
+  </script>
    
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
   <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
 

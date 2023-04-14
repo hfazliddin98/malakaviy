@@ -9,6 +9,7 @@
 
   <!-- LINKS -->
   <link rel="stylesheet" href="{% static '/fayl.css' %}">
+  <link rel="shortcut icon" href="{% static '/img/logo.png' %}" type="image/x-icon">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,11 +18,37 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- BOOTSTRAP -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
 </head>
 <body>
 
   {% include 'asosiy/navbar.html' %}
+
+  <!-- Promotion -->
+  <div class="promotion">
+    <div class="bgc_y"></div>
+    <div class="promotion__timer container">
+      <div class="title">Arizalarni topshirish uchun qolgan vaqt:</div>
+      <div class="timer" style="max-width: 325px;">
+        <div class="timer__block">
+          <span id="days">99</span>
+          kun
+        </div>
+        <div class="timer__block">
+          <span id="hours">09</span>
+          soat
+        </div>
+        <div class="timer__block">
+          <span id="minutes">99</span>
+          daqiqa
+        </div>
+        <div class="timer__block">
+          <span id="seconds">09</span>
+          sekund
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="sending-wrapper">
 
@@ -30,7 +57,9 @@
     <form class="sending mt-5" enctype="multipart/form-data" method="POST">
       {% csrf_token %}
       <h2 class="sending-heading">Minimum uchun hujjatlar</h2>
-  
+      
+      <p style="color: brown;"><strong>Eslatma.!</strong> Yuborayotgan fayllaringiz umumiy hajmi 10MB dan katta bo'lmasligi kerak.!!!</p>
+
       <div class="sending-fields">
         <div class="d-flex">
           <input class="form-control" type="text" name="ism" placeholder="Ismingiz" aria-label="Name" required>
@@ -40,46 +69,48 @@
         <div class="select">
           <p>Fanning nomi:</p>
           <select class="form-select" name="fan" id="fan">
-            <option class="select-option" value="fan0" selected>-- Fanni tanlang --</option>
-            <option class="select-option" value="fan1">O'zbek tili</option>
-            <option class="select-option" value="fan2">Til nazariyasi. Amaliy va kompyuter lingvistikasi</option>
-            <option class="select-option" value="fan3">Pedagogika nazariyasi. Pedagogik ta'limotlar tarixi</option>
-            <option class="select-option" value="fan4">Ta'lim va tarbiya nazariyasi va metodikasi</option>
-            <option class="select-option" value="fan5">Chet tili (Ingliz tili)</option>
+            <option class="select-option"  selected disabled>-- Fanni tanlang --</option>
+            <option class="select-option">O'zbek tili</option>
+            <option class="select-option">Til nazariyasi. Amaliy va kompyuter lingvistikasi</option>
+            <option class="select-option">Pedagogika nazariyasi. Pedagogik ta'limotlar tarixi</option>
+            <option class="select-option">Ta'lim va tarbiya nazariyasi va metodikasi</option>
+            <option class="select-option">Chet tili (Ingliz tili)</option>
           </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="telefon">Telefon raqamingiz</label>
+          <input class="form-control" type="tel" id="telefon" name="telefon" required placeholder="+998 ">
         </div>
   
         <div class="mb-3">
-          <label class="form-label" for="myFile1">1. Passport nusxasi(.jpg)</label>
+          <label class="form-label" for="myFile1">1. Passport nusxasi(.jpg yoki .png). Rasm hajmi 4MB dan katta bo'lmasligi kerak
+          </label>
           <input class="form-control" type="file" id="myFile1" accept="image/*" name="pasport" required>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="myFile2">2. Diplomlar(pdf)</label>
-          <input class="form-control" type="file" id="myFile2" name="diplom" multiple required>
+          <label class="form-label" for="myFile2">2. Diplomlar(.pdf/.doc/.docx)</label>
+          <input class="form-control fileSize" type="file" id="myFile2" name="diplom" onchange="return fileValidation2()" multiple required>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="myFile3">3. Ariza</label>
-          <input class="form-control" type="file" id="myFile3" name="ariza" required>
+          <label class="form-label" for="myFile3">3. Ariza yoki yo'llanma xat(.pdf/.doc/.docx)</label>
+          <input class="form-control fileSize" type="file" id="myFile3" name="ariza" onchange="return fileValidation3()" required>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="myFile4">4. Ma'lumotnoma(объективка)</label>
-          <input class="form-control" type="file" id="myFile4" name="malumotnoma" required>
+          <label class="form-label" for="myFile4">4. Ma'lumotnoma(объективка (.pdf/.doc/.docx))</label>
+          <input class="form-control fileSize" type="file" id="myFile4" name="malumotnoma" onchange="return fileValidation4()" required>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="myFile5">5. Minimum anketasi</label>
-          <input class="form-control" type="file" id="myFile5" name="anketa" required>
+          <label class="form-label" for="myFile5">5. Minimum anketasi (.pdf/.doc/.docx)</label>
+          <input class="form-control fileSize" type="file" id="myFile5" name="anketa" onchange="return fileValidation5()" required>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="myFile6">6. Kengash ko'chirmasi</label>
-          <input class="form-control" type="file" id="myFile6" name="kochirma" required>
+          <label class="form-label" for="myFile6">6. Kengash qarori ko'chirmasi(.pdf/.doc/.docx)</label>
+          <input class="form-control fileSize" type="file" id="myFile6" name="kochirma" onchange="return fileValidation6()" required>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="myFile7">7. Yo'llanma xat</label>
-          <input class="form-control" type="file" id="myFile7" name="yollanma" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="myFile8">8. Ilmiy ishlar ro'yxati</label>
-          <input class="form-control" type="file" id="myFile8" name="royhat" required>
+          <label class="form-label" for="myFile7">7. Ilmiy ishlar ro'yxati(.pdf/.doc/.docx)</label>
+          <input class="form-control fileSize" type="file" id="myFile7" name="royhat" onchange="return fileValidation7()" required>
         </div>
       </div>
       
@@ -91,10 +122,131 @@
   {% include 'asosiy/futer.html' %}
 
   <!-- BOOTSTRAP JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
   <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+  <script src="{% static '/js/sana.js' %}"></script>
+  <script>
 
+
+    let uploadField = document.getElementById("myFile1")
+    uploadField.onchange = function() {
+      if(this.files[0].size >= 4096000) {
+        alert("Fayl hajmi juda katta")
+        this.value = ""
+      }
+    }
+   
+
+
+
+
+
+    //File validation
+    //2
+    function fileValidation2() {
+      var fileInput =
+          document.getElementById('myFile2');
+       
+      var filePath = fileInput.value;
+   
+      // Allowing file type
+      var allowedExtensions =
+/(\.doc|\.docx|\.pdf|\.wps)$/i;
+       
+      if (!allowedExtensions.exec(filePath)) {
+          alert("Fayl formati noto'g'ri");
+          fileInput.value = '';
+          return false;
+      }
+  }
+  //3
+  function fileValidation3() {
+    var fileInput =
+        document.getElementById('myFile3');
+     
+    var filePath = fileInput.value;
+ 
+    // Allowing file type
+    var allowedExtensions =
+/(\.doc|\.docx|\.pdf|\.wps)$/i;
+     
+    if (!allowedExtensions.exec(filePath)) {
+        alert("Fayl formati noto'g'ri");
+        fileInput.value = '';
+        return false;
+    }
+}
+//4
+function fileValidation4() {
+  var fileInput =
+      document.getElementById('myFile4');
+   
+  var filePath = fileInput.value;
+
+  // Allowing file type
+  var allowedExtensions =
+/(\.doc|\.docx|\.pdf|\.wps)$/i;
+   
+  if (!allowedExtensions.exec(filePath)) {
+      alert("Fayl formati noto'g'ri");
+      fileInput.value = '';
+      return false;
+  }
+}
+//5
+function fileValidation5() {
+  var fileInput =
+      document.getElementById('myFile5');
+   
+  var filePath = fileInput.value;
+
+  // Allowing file type
+  var allowedExtensions =
+/(\.doc|\.docx|\.pdf|\.wps)$/i;
+   
+  if (!allowedExtensions.exec(filePath)) {
+      alert("Fayl formati noto'g'ri");
+      fileInput.value = '';
+      return false;
+  }
+}
+//6
+function fileValidation6() {
+  var fileInput =
+      document.getElementById('myFile6');
+   
+  var filePath = fileInput.value;
+
+  // Allowing file type
+  var allowedExtensions =
+/(\.doc|\.docx|\.pdf|\.wps)$/i;
+   
+  if (!allowedExtensions.exec(filePath)) {
+      alert("Fayl formati noto'g'ri");
+      fileInput.value = '';
+      return false;
+  }
+}
+//7
+function fileValidation7() {
+  var fileInput =
+      document.getElementById('myFile7');
+   
+  var filePath = fileInput.value;
+
+  // Allowing file type
+  var allowedExtensions =
+/(\.doc|\.docx|\.pdf|\.wps)$/i;
+   
+  if (!allowedExtensions.exec(filePath)) {
+      alert("Fayl formati noto'g'ri");
+      fileInput.value = '';
+      return false;
+  }
+}
+   
+  </script>
   
 </body>
 </html>

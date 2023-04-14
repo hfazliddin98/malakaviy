@@ -6,26 +6,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kirish</title>
+    <link rel="shortcut icon" href="{% static '/img/logo.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static '/register.css' %}" />
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
   </head>
   <body>
 
     <section class="wrapper active">
 
       <div class="form signup">
-        <header>Kirish</header>
-        <!-- {% csrf_token %} -->
-        <form action="#" method="post">
+        <header>Kirish</header>        
+        <form action="#" method="POST">
           {% csrf_token %}
-          <input name="username" type="text" placeholder="ID">
-          <input name="password" type="password" placeholder="Parol">
+          <input name="username" type="text" placeholder="Login">
+          
+          <div class="field">
+            <input class="pass-key" name="password" type="password" placeholder="Parol">
+            <span class="show">KO'RISH</span>
+          </div>
+
           <input type="submit" value="Kirish" />
-          <a href="{% url 'royhat' %}">Ro'yxatdan o'tish</a>
+          <a  href="{% url 'royhat' %}">Ro'yxatdan o'tish</a>
         </form>
       </div>
 
       <script>
+        const input = document.querySelector(".pass-key")
+        const showBtn = document.querySelector(".show")
+
+        showBtn.addEventListener('click', ()=> {
+          if(input.type === "password") {
+            input.type = "text"
+            showBtn.textContent = "YASHIRISH"
+            showBtn.style.color = "#3498db"
+          } else {
+            input.type = "password"
+            showBtn.textContent = "KO'RISH"
+            showBtn.style.color = "#222"
+          }
+        })
       </script>
     </section>
+    <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   </body>
 </html>

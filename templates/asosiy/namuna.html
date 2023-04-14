@@ -1,20 +1,41 @@
 {% load static %}
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static '/img/logo.png' %}" type="image/x-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+
+    <title>Home</title>
+</head>
+
+<body>
+    
 
 <!-- NAMUNALAR -->
 <div class="namunalar">
     <div class="container">
         <h2 class="namunalar-title">Na'munalar</h2>
-        <h5><strong>Eslatma.!</strong> Na'munalarning barchasi sizga rasm formatida taqdim etilgan. Siz passportdan boshqa barcha hujjatlaringizni word yoki .pdf formatida yuklashingiz kerak</h5>
+        <h5><strong>Eslatma.!</strong> Na'munalarning barchasi sizga rasm formatida taqdim etilgan. Siz passportdan boshqa barcha hujjatlaringizni .doc yoki .pdf formatida yuklashingiz kerak</h5>
         <div class="namunalar-content">
             <!-- ITEM -->
             <div class="namuna-item">
                 <div class="namuna-text">
                     1. Passport namunasi (.jpg, .png).
                 </div>       
-                <div class="namuna-img">                                                          
-                    <img class="namuna-img-item" src="{% static '/img/passport.jpg' %}" alt="Pasport namunasi">
+                <div class="namuna-img">                                   
+                    <img class="namuna-img-item img-fluid" style="width: 100%;" src="{% static '/img/passport.jpeg' %}" alt="Pasport namunasi">
                 </div>
             </div>
             <!-- ITEM -->
@@ -24,8 +45,7 @@
                 </div>
                 <div class="namuna-img">
                     <div>Diplomlarning har biri sahifasini quyida ko'rsatilganidek skanerlang va barchasini birlashtirib pdf formatida yuklang</div>
-                    <img class="namuna-img-item" src="{% static '/img/diplomlar.png' %}" alt="Pasport namunasi">
-                    <img class="namuna-img-item" src="{% static '/img/diplomlar2.png' %}" alt="Pasport namunasi">
+                    <img class="namuna-img-item img-fluid" style="width: 100%;" src="{% static '/img/diplom.png' %}" alt="Pasport namunasi">
                 </div>
             </div>
             <!-- ITEM -->
@@ -34,7 +54,7 @@
                     3. Ariza namunasi.
                 </div>
                 <div class="namuna-img">
-                    <img class="namuna-img-item" src="{% static '/img/ariza.png' %}" alt="Pasport namunasi">
+                    <img class="namuna-img-item img-fluid" style="width: 100%;" src="{% static '/img/ariza.png' %}" alt="Pasport namunasi">
                 </div>
             </div>
             <!-- ITEM -->
@@ -43,8 +63,7 @@
                     4. Ma'lumotnoma(объективка).
                 </div>
                 <div class="namuna-img">
-                    <img class="namuna-img-item" src="{% static '/img/malumotnoma.png' %}" alt="Pasport namunasi">
-                    <img class="namuna-img-item" src="{% static '/img/malumotnoma2.png' %}" alt="Pasport namunasi">
+                    <img class="namuna-img-item img-fluid" style="width: 100%;" src="{% static '/img/malumotnoma.png' %}" alt="Pasport namunasi">
                 </div>
             </div>
             <!-- ITEM -->
@@ -53,7 +72,7 @@
                     5. Minimum anketasi (.pdf yoki .doc).
                 </div>
                 <div class="namuna-img">
-                    <img class="namuna-img-item" src="{% static '/img/minimum anketa.png' %}" alt="Pasport namunasi">
+                    <img class="namuna-img-item img-fluid" style="width: 100%;" src="{% static '/img/anketa.png' %}" alt="Pasport namunasi">
                 </div>
             </div>
             <!-- ITEM -->
@@ -62,9 +81,8 @@
                     6. Kengash ko'chirmasi.
                 </div>
                 <div class="namuna-img">
-                    <img class="namuna-img-item" src="{% static '/img/kochirma1.png' %}" alt="Pasport namunasi">
-                    <img class="namuna-img-item" src="{% static '/img/kochirma2.png' %}" alt="Pasport namunasi">
-                    <img class="namuna-img-item" src="{% static '/img/kochirma.png' %}" alt="Pasport namunasi">
+                    <img class="namuna-img-item img-fluid" style="width: 100%;" src="{% static '/img/qaror.png' %}" alt="Pasport namunasi">
+                    <img class="namuna-img-item img-fluid" style="width: 100%;" src="{% static '/img/qaror2.png' %}" alt="Pasport namunasi">
                 </div>
             </div>
             <!-- ITEM -->
@@ -73,7 +91,7 @@
                     7. Yo'llanma xat.
                 </div>
                 <div class="namuna-img">
-                    <img class="namuna-img-item" src="{% static '/img/xat.png' %}" alt="Pasport namunasi">
+                    <img class="namuna-img-item img-fluid" style="width: 100%;" src="{% static '/img/xat.png' %}" alt="Pasport namunasi">
                 </div>
             </div>
             <!-- ITEM -->
@@ -82,9 +100,10 @@
                     8. Ilmiy ishlar ro'yxati.
                 </div>
                 <div class="namuna-img">
-                    <img class="namuna-img-item" src="{% static '/img/ishlar.png' %}" alt="Pasport namunasi">
+                    <img class="namuna-img-item img-fluid" style="width: 100%;" src="{% static '/img/ilmiy.png' %}" alt="Pasport namunasi">
                 </div>
             </div>
         </div>
     </div>
 </div>
+</body>

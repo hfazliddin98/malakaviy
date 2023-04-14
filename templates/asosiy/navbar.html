@@ -1,11 +1,41 @@
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- HEADER -->
-<header class="header">
-    <div class="container">
-        <a class="text-decoration-none d-flex align-items-center mt-3" href="#">
-            <img class="logo-img" src="{% static '/img/logo.png' %}" alt="" width="35">
-            <span class="logo-name mx-1">Qo'qon Davlat <br>Pedagogika instituti</span>
-        </a>
-    </div>
-</header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="{% static '/home.css' %}">
+    <link rel="stylesheet" href="{% static '/main.css' %}">
+   
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <header class="header">
+            <div class="container" style="display: flex; align-items:center; justify-content:space-between">
+                <a class="text-decoration-none d-flex align-items-center mt-3" href="{% url 'home' %}">
+                    <img class="logo-img" src="{% static '/img/logo.png' %}" alt="" width="35">
+                    <span class="logo-name mx-1">Qo'qon Davlat <br>Pedagogika instituti</span>
+                </a>
+                <div class="chiqish">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <a action="{% url 'home' %}" class="nav-link active m-0 h5 mx-1" aria-current="page" href="{% url 'logout' %}">Chiqish</a>
+                </div>
+            </div>
+        </header>
+    {% else %}
+        <!-- HEADER -->
+        <header class="header">
+            <div class="container">
+                <a class="text-decoration-none d-flex align-items-center mt-3" href="{% url 'home' %}">
+                    <img class="logo-img" src="{% static '/img/logo.png' %}" alt="" width="35">
+                    <span class="logo-name mx-1">Qo'qon Davlat <br>Pedagogika instituti</span>
+                </a>
+            </div>
+        </header>
+    {% endif %}
+</body>
+</html>
