@@ -28,6 +28,12 @@
       <h2 class="hujjatlar-title" style="text-align: center;">{{javob.familya | title}} {{javob.ism | title}}</h2>
       <div class="hujjatlar-inner">
         <p class="fan-nomi" style="text-align: center;">{{javob.fan}}</p>
+
+        <div class="hujjat">
+          <span class="hujjat-turi">Talaba malumotlarini kiritgan sana</span>
+          <a href="tel: {{javob.telefon}}" class="hujjat-link">{{javob.sana}}</a>
+        </div>
+
         <div class="hujjat">
           <span class="hujjat-turi">Talaba bilan bog'lanish uchun telefon raqam:</span>
           <a href="tel: {{javob.telefon}}" class="hujjat-link">{{javob.telefon}}</a>

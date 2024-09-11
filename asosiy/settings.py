@@ -15,7 +15,8 @@ SECRET_KEY = 'django-insecure-)%-%@6$!xlh20zv#$^=yf(c&+_tx1p86)+o!k2y+g=(0romn_&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = ['192.168.0.22','localhost','127.0.0.1','malakaviy.kspi.uz']
+ALLOWED_HOSTS = ['192.168.0.22','localhost', '127.0.0.1', 'malakaviy.kspi.uz']
+CSRF_TRUSTED_ORIGINS=['https://malakaviy.kspi.uz', 'http://malakaviy.kspi.uz', 'http://127.0.0.1']
 
 
 
@@ -72,18 +73,23 @@ WSGI_APPLICATION = 'asosiy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'malakaviy',
-        'USER': 'malakaviyuser',
-        'PASSWORD': 'Malakaviy2023',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'malakaviy',
+#         'USER': 'malakaviyuser',
+#         'PASSWORD': 'Malakaviy2023',
+#         'HOST': '192.168.0.22',
+#         'PORT': '5432',
+#     }
+# }
 
 
 

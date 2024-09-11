@@ -19,6 +19,8 @@
 
   <!-- BOOTSTRAP -->
   <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+
+
 </head>
 <body>
 
@@ -72,9 +74,9 @@
             <option class="select-option"  selected disabled>-- Fanni tanlang --</option>
             <option class="select-option">O'zbek tili</option>
             <option class="select-option">Til nazariyasi. Amaliy va kompyuter lingvistikasi</option>
-            <option class="select-option">Pedagogika nazariyasi. Pedagogik ta'limotlar tarixi</option>
-            <option class="select-option">Ta'lim va tarbiya nazariyasi va metodikasi</option>
+            <option class="select-option">Ta`lim va tarbiya nazariyasi va metodikasi(ijtimoiy-gumanitar fanlar)</option>
             <option class="select-option">Chet tili (Ingliz tili)</option>
+            <option class="select-option">Chet tili (Nemis tili)</option>
           </select>
         </div>
 
@@ -84,9 +86,8 @@
         </div>
   
         <div class="mb-3">
-          <label class="form-label" for="myFile1">1. Passport nusxasi(.jpg yoki .png). Rasm hajmi 4MB dan katta bo'lmasligi kerak
-          </label>
-          <input class="form-control" type="file" id="myFile1" accept="image/*" name="pasport" required>
+          <label class="form-label" for="myFile1">1. Passport nusxasi hajmi 4MB dan katta bo'lmasligi kerak</label>
+          <input class="form-control" type="file" id="myFile1" name="pasport" required>
         </div>
         <div class="mb-3">
           <label class="form-label" for="myFile2">2. Diplomlar(.pdf/.doc/.docx)</label>
@@ -106,7 +107,7 @@
         </div>
         <div class="mb-3">
           <label class="form-label" for="myFile6">6. Kengash qarori ko'chirmasi(.pdf/.doc/.docx)</label>
-          <input class="form-control fileSize" type="file" id="myFile6" name="kochirma" onchange="return fileValidation6()" required>
+          <input class="form-control fi`leSize" type="file" id="myFile6" name="kochirma" onchange="return fileValidation6()" required>
         </div>
         <div class="mb-3">
           <label class="form-label" for="myFile7">7. Ilmiy ishlar ro'yxati(.pdf/.doc/.docx)</label>
@@ -121,13 +122,77 @@
   </div> 
   {% include 'asosiy/futer.html' %}
 
+
   <!-- BOOTSTRAP JS -->
   <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
   <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
-  <script src="{% static '/js/sana.js' %}"></script>
   <script>
+    
 
+
+    // DEADLINE
+    const deadline = '2024-05-21';
+
+    function timeRemainig(endtime) {
+      let days, hours, minutes, seconds;
+      const timer = Date.parse(endtime) - Date.parse(new Date());
+
+      var inputs = document.querySelectorAll('input')
+
+      if (timer <= 0 ) {
+        days = 0
+        hours = 0
+        minutes = 0
+        seconds = 0
+        inputs.forEach((input)=> {
+          input.disabled = true
+        })
+      } else {
+        days = Math.floor(timer/(1000*60*60*24))
+        hours = Math.floor((timer/(1000*60*60))%24)
+        minutes = Math.floor((timer/(1000*60))%60)
+        seconds = Math.floor((timer/1000)%60)
+      }
+
+      return {timer, days, hours, minutes, seconds}
+    }
+
+    function getZero(num) {
+      if (num >= 0 && num < 10) {
+        return num
+      }
+      else{
+        return num
+      }
+    }
+
+    function setClock(selector, endtime) {
+      const  timer = document.querySelector(selector),
+      days = timer.querySelector('#days'),
+      hours = timer.querySelector('#hours'),
+      minutes = timer.querySelector('#minutes'),
+      seconds = timer.querySelector('#seconds'),
+      timeInterval = setInterval(updateClock, 1000)
+
+      updateClock()
+
+      function updateClock() {
+        const t = timeRemainig(endtime)
+
+        days.innerHTML = getZero(t.days)
+        hours.innerHTML = getZero(t.hours)
+        minutes.innerHTML = getZero(t.minutes)
+        seconds.innerHTML = getZero(t.seconds)
+
+        if (t.timer<=0) {
+          clearInterval(timeInterval)
+        }
+      }
+    }
+    setClock('.timer', deadline)
+
+ 
 
     let uploadField = document.getElementById("myFile1")
     uploadField.onchange = function() {
@@ -136,9 +201,6 @@
         this.value = ""
       }
     }
-   
-
-
 
 
 

@@ -1,7 +1,7 @@
 
 
     // DEADLINE
-    const deadline = '2023-07-25';
+    const deadline = '2023-11-25';
 
     function timeRemainig(endtime) {
       let days, hours, minutes, seconds;
