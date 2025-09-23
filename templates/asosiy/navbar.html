@@ -1,41 +1,82 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<nav class="navbar" id="navbar">
+    <div class="navbar-container">
+        <!-- Brand -->
+        <a href="{% url 'home' %}" class="navbar-brand">
+            <img src="{% static 'img/logo.png' %}" alt="Qo'qon davlat universiteti Logo" class="navbar-logo">
+            <div class="navbar-text">
+                <div class="navbar-title">Qo'qon davlat universiteti</div>
+            </div>
+        </a>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <link rel="stylesheet" href="{% static '/home.css' %}">
-    <link rel="stylesheet" href="{% static '/main.css' %}">
-   
-</head>
-<body>
-    {% if user.is_authenticated %}
-        <header class="header">
-            <div class="container" style="display: flex; align-items:center; justify-content:space-between">
-                <a class="text-decoration-none d-flex align-items-center mt-3" href="{% url 'home' %}">
-                    <img class="logo-img" src="{% static '/img/logo.png' %}" alt="" width="35">
-                    <span class="logo-name mx-1">Qo'qon Davlat <br>Pedagogika instituti</span>
-                </a>
-                <div class="chiqish">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <a action="{% url 'home' %}" class="nav-link active m-0 h5 mx-1" aria-current="page" href="{% url 'logout' %}">Chiqish</a>
+        <!-- Actions -->
+        <div class="navbar-actions">
+            {% if user.is_authenticated %}
+                <!-- User Dropdown -->
+                <div class="navbar-profile dropdown">
+                    <button class="navbar-profile-trigger" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="navbar-avatar">
+                            {% if user.first_name and user.last_name %}
+                                {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                            {% else %}
+                                <i class="fas fa-user"></i>
+                            {% endif %}
+                        </div>
+                        <div class="navbar-info">
+                            <div class="navbar-username">{{ user.first_name }} {{ user.last_name }}</div>
+                        </div>
+                        <i class="fas fa-chevron-down navbar-dropdown-arrow"></i>
+                    </button>
+                    
+                    <!-- Dropdown Menu -->
+                    <ul class="dropdown-menu navbar-dropdown">
+                        <li><h6 class="dropdown-header">
+                            <i class="fas fa-user-circle me-2 text-primary"></i>
+                            <div>
+                                <div>{{ user.first_name }} {{ user.last_name }}</div>
+                                <small class="text-muted">
+                                    {% if user.is_superuser %}
+                                        superuser
+                                    {% elif user.rol == 'Admin' %}
+                                        admin
+                                    {% else %}
+                                        {{ user.rol|default:"user"|lower }}
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </h6></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt me-2"></i>
+                            <span>Tizimdan chiqish</span>
+                        </a></li>
+                    </ul>
                 </div>
-            </div>
-        </header>
-    {% else %}
-        <!-- HEADER -->
-        <header class="header">
-            <div class="container">
-                <a class="text-decoration-none d-flex align-items-center mt-3" href="{% url 'home' %}">
-                    <img class="logo-img" src="{% static '/img/logo.png' %}" alt="" width="35">
-                    <span class="logo-name mx-1">Qo'qon Davlat <br>Pedagogika instituti</span>
-                </a>
-            </div>
-        </header>
-    {% endif %}
-</body>
-</html>
+            {% else %}
+                <!-- Guest Links -->
+                <div class="navbar-auth-links">
+                    <a href="{% url 'kirish' %}" class="navbar-link navbar-link-login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Kirish
+                    </a>
+                    <a href="{% url 'royhat' %}" class="navbar-link navbar-link-register">
+                        <i class="fas fa-user-plus"></i>
+                        Ro'yxatdan o'tish
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<script>
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+    const navbar = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+</script>

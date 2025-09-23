@@ -8,8 +8,8 @@
   <title>Jo'natish</title>
 
   <!-- LINKS -->
-  <link rel="stylesheet" href="{% static '/fayl.css' %}">
-  <link rel="shortcut icon" href="{% static '/img/logo.png' %}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'fayl.css' %}">
+  <link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,39 +18,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- BOOTSTRAP -->
-  <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 
 
 </head>
 <body>
 
   {% include 'asosiy/navbar.html' %}
-
-  <!-- Promotion -->
-  <div class="promotion">
-    <div class="bgc_y"></div>
-    <div class="promotion__timer container">
-      <div class="title">Arizalarni topshirish uchun qolgan vaqt:</div>
-      <div class="timer" style="max-width: 325px;">
-        <div class="timer__block">
-          <span id="days">99</span>
-          kun
-        </div>
-        <div class="timer__block">
-          <span id="hours">09</span>
-          soat
-        </div>
-        <div class="timer__block">
-          <span id="minutes">99</span>
-          daqiqa
-        </div>
-        <div class="timer__block">
-          <span id="seconds">09</span>
-          sekund
-        </div>
-      </div>
-    </div>
-  </div>
 
   <div class="sending-wrapper">
 
@@ -63,22 +37,16 @@
       <p style="color: brown;"><strong>Eslatma.!</strong> Yuborayotgan fayllaringiz umumiy hajmi 10MB dan katta bo'lmasligi kerak.!!!</p>
 
       <div class="sending-fields">
-        <div class="d-flex">
-          <input class="form-control" type="text" name="ism" placeholder="Ismingiz" aria-label="Name" required>
-          <input class="form-control ms-2" type="text" name="familya" placeholder="Familiyangiz" aria-label="Last Name" required>
-        </div>
-  
         <div class="select">
           <p>Fanning nomi:</p>
-          <select class="form-select" name="fan" id="fan">
-            <option class="select-option"  selected disabled>-- Fanni tanlang --</option>
-            <option class="select-option">O'zbek tili</option>
-            <option class="select-option">Til nazariyasi. Amaliy va kompyuter lingvistikasi</option>
-            <option class="select-option">Ta`lim va tarbiya nazariyasi va metodikasi(ijtimoiy-gumanitar fanlar)</option>
-            <option class="select-option">Chet tili (Ingliz tili)</option>
-            <option class="select-option">Chet tili (Nemis tili)</option>
+          <select class="form-select" name="fan_yonalishi" id="fan_yonalishi" required>
+            <option value="" selected disabled>-- Fanni tanlang --</option>
+            {% for fan in fan_yonalishlari %}
+                <option value="{{ fan.id }}">{{ fan.name }}</option>
+            {% endfor %}
           </select>
         </div>
+
 
         <div class="mb-3">
           <label class="form-label" for="telefon">Telefon raqamingiz</label>
@@ -124,73 +92,10 @@
 
 
   <!-- BOOTSTRAP JS -->
-  <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
   <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
   <script>
-    
-
-
-    // DEADLINE
-    const deadline = '2024-05-21';
-
-    function timeRemainig(endtime) {
-      let days, hours, minutes, seconds;
-      const timer = Date.parse(endtime) - Date.parse(new Date());
-
-      var inputs = document.querySelectorAll('input')
-
-      if (timer <= 0 ) {
-        days = 0
-        hours = 0
-        minutes = 0
-        seconds = 0
-        inputs.forEach((input)=> {
-          input.disabled = true
-        })
-      } else {
-        days = Math.floor(timer/(1000*60*60*24))
-        hours = Math.floor((timer/(1000*60*60))%24)
-        minutes = Math.floor((timer/(1000*60))%60)
-        seconds = Math.floor((timer/1000)%60)
-      }
-
-      return {timer, days, hours, minutes, seconds}
-    }
-
-    function getZero(num) {
-      if (num >= 0 && num < 10) {
-        return num
-      }
-      else{
-        return num
-      }
-    }
-
-    function setClock(selector, endtime) {
-      const  timer = document.querySelector(selector),
-      days = timer.querySelector('#days'),
-      hours = timer.querySelector('#hours'),
-      minutes = timer.querySelector('#minutes'),
-      seconds = timer.querySelector('#seconds'),
-      timeInterval = setInterval(updateClock, 1000)
-
-      updateClock()
-
-      function updateClock() {
-        const t = timeRemainig(endtime)
-
-        days.innerHTML = getZero(t.days)
-        hours.innerHTML = getZero(t.hours)
-        minutes.innerHTML = getZero(t.minutes)
-        seconds.innerHTML = getZero(t.seconds)
-
-        if (t.timer<=0) {
-          clearInterval(timeInterval)
-        }
-      }
-    }
-    setClock('.timer', deadline)
 
  
 

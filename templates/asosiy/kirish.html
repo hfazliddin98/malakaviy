@@ -1,14 +1,92 @@
 {% load static %}
-<!-- HERO -->
-<div class="hero">
-    <div class="container hero-wrapper">
-        <div class="hero-info">
-            <div class="hero-title">Tadqiqotchilarga malakaviy imtihon asosida ko'rsatiladigan xizmatlar hisobini yuritish axborot tizimi</div>
-            <div class="hero-links">
-                <a class="hero-link" href="{% url 'kirish' %}">Kirish</a>
-                <a class="hero-link" href="{% url 'royhat' %}">Ro'yxatdan o'tish</a>
+<section class="hero">
+    <!-- Background decorations -->
+    <div class="hero-decoration hero-decoration-1"></div>
+    <div class="hero-decoration hero-decoration-2"></div>
+    <div class="hero-decoration hero-decoration-3"></div>
+    
+    <!-- Main content container -->
+    <div class="hero-container">
+        <div class="hero-content">
+            <!-- Hero title with modern typography -->
+            <h1 class="hero-title">
+                <span class="hero-title-main">Tadqiqotchilar uchun</span>
+                <span class="hero-title-accent">Malakaviy Tizim</span>
+                <div class="hero-title-underline"></div>
+            </h1>
+            
+            <!-- Enhanced description -->
+            <p class="hero-description">
+                Tadqiqotchilarga malakaviy imtihon asosida ko'rsatiladigan xizmatlar hisobini yuritish 
+                va hujjatlarni onlayn yuklash uchun zamonaviy axborot tizimi.
+            </p>
+            
+            <!-- Feature highlights -->
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Xavfsizlik</span>
+                </div>
+                <div class="hero-feature">
+                    <i class="fas fa-clock"></i>
+                    <span>24/7 Kirish</span>
+                </div>
+                <div class="hero-feature">
+                    <i class="fas fa-file-upload"></i>
+                    <span>Oson Yuklash</span>
+                </div>
+            </div>
+            
+            <!-- Action buttons with modern styling -->
+            <div class="hero-actions">
+                <a href="{% url 'kirish' %}" class="hero-cta hero-cta-primary">
+                    <span class="hero-cta-icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </span>
+                    <span class="hero-cta-text">Tizimga kirish</span>
+                    <span class="hero-cta-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+                
+                <a href="{% url 'royhat' %}" class="hero-cta hero-cta-secondary">
+                    <span class="hero-cta-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </span>
+                    <span class="hero-cta-text">Ro'yxatdan o'tish</span>
+                    <span class="hero-cta-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
             </div>
         </div>
-        <div class="hero-img"></div>
+        
+        <!-- Enhanced visual section -->
+        <div class="hero-visual">
+            <div class="hero-image-container">
+                <div class="hero-image-background"></div>
+                <img src="{% static 'img/bg-home.png' %}" alt="KSPI Building" class="hero-image">
+                <div class="hero-image-overlay">
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">500+</div>
+                            <div class="hero-stat-label">Tadqiqotchi</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">1000+</div>
+                            <div class="hero-stat-label">Hujjat</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    
+    <!-- Scroll indicator -->
+    <div class="hero-scroll-indicator">
+        <div class="hero-scroll-text">Scroll</div>
+        <div class="hero-scroll-arrow">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </div>
+</section>

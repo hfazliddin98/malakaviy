@@ -1,0 +1,408 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadline Test - Malakaviy Tizim</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .test-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 2rem auto;
+            max-width: 900px;
+        }
+        
+        .test-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+        }
+        
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        
+        .status-active { background: #d4edda; color: #155724; }
+        .status-inactive { background: #f8d7da; color: #721c24; }
+        .status-expired { background: #fff3cd; color: #856404; }
+        
+        .timer-display {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .timer__block {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .timer__block span {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+        
+        .timer__block small {
+            display: block;
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 4px solid #667eea;
+        }
+        
+        .console-output {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        
+        .btn-test {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-test:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="test-container">
+            <!-- Header -->
+            <div class="test-header">
+                <h1><i class="fas fa-clock me-2"></i>Deadline Test Panel</h1>
+                <p class="mb-0">Malakaviy tizimi deadline funksiyalarini tekshirish</p>
+            </div>
+            
+            <div class="p-4">
+                <!-- Status Section -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3><i class="fas fa-info-circle me-2 text-primary"></i>Deadline Holati</h3>
+                        {% if deadline %}
+                            {% load tz %}
+                            {% now "U" as current_timestamp %}
+                            {% if deadline.faol %}
+                                {% if deadline.deadline_sana|date:"U" > current_timestamp %}
+                                    <span class="status-badge status-active">
+                                        <i class="fas fa-check-circle me-1"></i>Faol va vaqt qolgan
+                                    </span>
+                                {% else %}
+                                    <span class="status-badge status-expired">
+                                        <i class="fas fa-exclamation-triangle me-1"></i>Faol lekin muddati tugagan
+                                    </span>
+                                {% endif %}
+                            {% else %}
+                                <span class="status-badge status-inactive">
+                                    <i class="fas fa-times-circle me-1"></i>Nofaol
+                                </span>
+                            {% endif %}
+                        {% else %}
+                            <span class="status-badge status-inactive">
+                                <i class="fas fa-question-circle me-1"></i>Deadline topilmadi
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Timer Display -->
+                {% if deadline and deadline.faol %}
+                <div class="timer-display">
+                    <h4><i class="fas fa-stopwatch me-2"></i>Qolgan Vaqt</h4>
+                    <div class="timer">
+                        <div class="timer__block">
+                            <span id="days">--</span>
+                            <small>kun</small>
+                        </div>
+                        <div class="timer__block">
+                            <span id="hours">--</span>
+                            <small>soat</small>
+                        </div>
+                        <div class="timer__block">
+                            <span id="minutes">--</span>
+                            <small>daqiqa</small>
+                        </div>
+                        <div class="timer__block">
+                            <span id="seconds">--</span>
+                            <small>sekund</small>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Information Grid -->
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h5><i class="fas fa-database me-2"></i>Template Ma'lumotlari</h5>
+                        {% if deadline %}
+                            <p><strong>ID:</strong> {{ deadline.id|default:"N/A" }}</p>
+                            <p><strong>Nomi:</strong> {{ deadline.nomi|default:"Nomi yo'q" }}</p>
+                            <p><strong>Sana:</strong> {{ deadline.deadline_sana|date:"d.m.Y H:i:s"|default:"Sana yo'q" }}</p>
+                            <p><strong>Faol:</strong> 
+                                {% if deadline.faol %}
+                                    <span class="text-success"><i class="fas fa-check"></i> Ha</span>
+                                {% else %}
+                                    <span class="text-danger"><i class="fas fa-times"></i> Yo'q</span>
+                                {% endif %}
+                            </p>
+                        {% else %}
+                            <p class="text-muted">Deadline object mavjud emas</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="info-card">
+                        <h5><i class="fas fa-code me-2"></i>JavaScript Ma'lumotlari</h5>
+                        <p><strong>Deadline String:</strong> <span id="js-deadline-string">Yuklanmoqda...</span></p>
+                        <p><strong>Current Time:</strong> <span id="current-time">Yuklanmoqda...</span></p>
+                        <p><strong>Time Remaining:</strong> <span id="time-remaining">Yuklanmoqda...</span></p>
+                        <p><strong>Can Upload:</strong> <span id="can-upload">Yuklanmoqda...</span></p>
+                    </div>
+
+                    <div class="info-card">
+                        <h5><i class="fas fa-server me-2"></i>Server Ma'lumotlari</h5>
+                        <p><strong>Server Time:</strong> {% now "d.m.Y H:i:s" %}</p>
+                        <p><strong>Timezone:</strong> {{ TIME_ZONE|default:"UTC" }}</p>
+                        <p><strong>User:</strong> {{ user.username|default:"Anonymous" }}</p>
+                        <p><strong>Role:</strong> {{ user.rol|default:"N/A" }}</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h5><i class="fas fa-cogs me-2"></i>Test Actions</h5>
+                        <button class="btn btn-test" onclick="testTimer()">Timer Test</button>
+                        <button class="btn btn-test" onclick="testUploadPermission()">Upload Test</button>
+                        <button class="btn btn-test" onclick="refreshData()">Ma'lumotlarni Yangilash</button>
+                        <button class="btn btn-test" onclick="clearConsole()">Console Tozalash</button>
+                    </div>
+                </div>
+
+                <!-- Console Output -->
+                <div class="console-output" id="console-output">
+                    <div><span style="color: #4CAF50;">[INFO]</span> Deadline test sahifasi yuklandi</div>
+                    <div><span style="color: #2196F3;">[DEBUG]</span> Console tayyor</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Global variables
+        const deadline = '{% if deadline %}{{ deadline.deadline_sana|date:"Y-m-d\TH:i:s" }}{% else %}2025-12-31T23:59:59{% endif %}';
+        const deadlineExists = {{ deadline|yesno:"true,false" }};
+        const deadlineActive = {% if deadline %}{{ deadline.faol|yesno:"true,false" }}{% else %}false{% endif %};
+        
+        // Console functions
+        function logToConsole(message, type = 'INFO') {
+            const console_output = document.getElementById('console-output');
+            const timestamp = new Date().toLocaleTimeString();
+            const colors = {
+                'INFO': '#4CAF50',
+                'DEBUG': '#2196F3', 
+                'WARN': '#FF9800',
+                'ERROR': '#F44336'
+            };
+            
+            const div = document.createElement('div');
+            div.innerHTML = `<span style="color: ${colors[type]};">[${type}]</span> ${timestamp} - ${message}`;
+            console_output.appendChild(div);
+            console_output.scrollTop = console_output.scrollHeight;
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').innerHTML = '';
+            logToConsole('Console tozalandi');
+        }
+
+        // Timer functions
+        function timeRemaining(endtime) {
+            const now = new Date();
+            const targetDate = new Date(endtime);
+            const timer = targetDate.getTime() - now.getTime();
+
+            if (timer <= 0) {
+                return {timer: 0, days: 0, hours: 0, minutes: 0, seconds: 0};
+            }
+
+            const days = Math.floor(timer / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timer % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timer % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timer % (1000 * 60)) / 1000);
+
+            return {timer, days, hours, minutes, seconds};
+        }
+
+        function getZero(num) {
+            return num >= 0 && num < 10 ? '0' + num : num;
+        }
+
+        function updateTimer() {
+            if (!deadlineExists || !deadlineActive) return;
+            
+            const t = timeRemaining(deadline);
+            
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            
+            if (daysEl) daysEl.innerHTML = getZero(t.days);
+            if (hoursEl) hoursEl.innerHTML = getZero(t.hours);
+            if (minutesEl) minutesEl.innerHTML = getZero(t.minutes);
+            if (secondsEl) secondsEl.innerHTML = getZero(t.seconds);
+            
+            // Update JS info
+            document.getElementById('time-remaining').textContent = 
+                `${t.days}d ${t.hours}h ${t.minutes}m ${t.seconds}s`;
+            document.getElementById('can-upload').innerHTML = 
+                t.timer > 0 ? '<span class="text-success">Ha</span>' : '<span class="text-danger">Yo\'q</span>';
+        }
+
+        function updateJSInfo() {
+            document.getElementById('js-deadline-string').textContent = deadline;
+            document.getElementById('current-time').textContent = new Date().toLocaleString();
+        }
+
+        // Test functions
+        function testTimer() {
+            logToConsole('Timer test boshlandi', 'DEBUG');
+            logToConsole(`Deadline mavjud: ${deadlineExists}`, 'INFO');
+            logToConsole(`Deadline faol: ${deadlineActive}`, 'INFO');
+            logToConsole(`Deadline string: ${deadline}`, 'INFO');
+            
+            if (deadlineExists && deadlineActive) {
+                const t = timeRemaining(deadline);
+                logToConsole(`Qolgan vaqt: ${t.days} kun, ${t.hours} soat, ${t.minutes} daqiqa, ${t.seconds} sekund`, 'INFO');
+                if (t.timer <= 0) {
+                    logToConsole('DEADLINE TUGAGAN!', 'WARN');
+                }
+            } else {
+                logToConsole('Timer ishlamaydi - deadline nofaol yoki mavjud emas', 'WARN');
+            }
+        }
+
+        function testUploadPermission() {
+            logToConsole('Upload permission test boshlandi', 'DEBUG');
+            
+            if (!deadlineExists) {
+                logToConsole('Deadline mavjud emas - upload imkonsiz', 'ERROR');
+                return;
+            }
+            
+            if (!deadlineActive) {
+                logToConsole('Deadline nofaol - upload imkonsiz', 'ERROR');
+                return;
+            }
+            
+            const t = timeRemaining(deadline);
+            if (t.timer > 0) {
+                logToConsole('Upload mumkin - deadline hali tugamagan', 'INFO');
+            } else {
+                logToConsole('Upload imkonsiz - deadline tugagan', 'ERROR');
+            }
+        }
+
+        function refreshData() {
+            logToConsole('Ma\'lumotlar yangilanmoqda...', 'DEBUG');
+            updateJSInfo();
+            updateTimer();
+            logToConsole('Ma\'lumotlar yangilandi', 'INFO');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            logToConsole('Sahifa yuklandi', 'INFO');
+            updateJSInfo();
+            
+            if (deadlineExists && deadlineActive) {
+                logToConsole('Timer boshlandi', 'INFO');
+                updateTimer();
+                setInterval(updateTimer, 1000);
+            } else {
+                logToConsole('Timer ishga tushirilmadi - deadline nofaol', 'WARN');
+            }
+            
+            // Initial tests
+            setTimeout(() => {
+                testTimer();
+                testUploadPermission();
+            }, 1000);
+        });
+
+        // Console logging for debugging
+        {% if deadline %}
+            console.log('Deadline object mavjud');
+            console.log('Deadline ID:', '{{ deadline.id }}');
+            console.log('Deadline nomi:', '{{ deadline.nomi }}');
+            console.log('Deadline sana:', '{{ deadline.deadline_sana }}');
+            console.log('Deadline faol:', {{ deadline.faol|yesno:"true,false" }});
+        {% else %}
+            console.log('Deadline object mavjud emas');
+        {% endif %}
+    </script>
+</body>
+</html>

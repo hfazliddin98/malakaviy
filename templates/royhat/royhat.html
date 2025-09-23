@@ -1,79 +1,194 @@
+﻿{% extends 'asosiy/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registratsiya</title>
-    <link rel="shortcut icon" href="{% static '/img/logo.png' %}" type="image/x-icon">
-    <link rel="stylesheet" href="{% static '/register.css' %}" />
-    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
-  </head>
-  <body>
-    <section class="wrapper">
-      <div class="form signup">
-        <header>Ro'yxatdan o'tish</header>
-        <form action="#" method="post">
-          {% csrf_token %}
-          <input type="text" name="username" placeholder="Login(yarating)">
-          <input type="text" name="familya" placeholder="Familiyangiz">
-          <input type="text" name="ism" placeholder="Ismingiz">
-          <input type="text" name="sharif" placeholder="Sharifingiz">
-          <div class="field">
-            <input id="inp_1" class="pass-key" type="password" name="password1" placeholder="Parol kiriting(Kamida 8ta belgi)" pattern=".{8,}" title="Belgilar soni 8-tadan kam bo'lmasligi kerak.!">
-            <span id="span_1" class="show">KO'RISH</span>
-          </div>
-          <div class="field">
-            <input id="inp_2" class="pass-key" type="password" name="password2" placeholder="Parolni qayta kiriting" pattern=".{8,}" title="Belgilar soni 8-tadan kam bo'lmasligi kerak.!">
-            <span id="span_2" class="show">KO'RISH</span>
-          </div>
-          <input type="submit" value="Saqlash" />
-          <a href="{% url 'kirish' %}">Kirish</a>
-        </form>
-      </div>
 
-    </section>
-   
-    <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% block title %}Ro'yxatdan o'tish - Qo'qon davlat universiteti Malakaviy Tizim{% endblock %}
 
-    <script>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'register.css' %}">
+<style>
+  .messages-container {
+    margin: 1rem 0;
+  }
+  
+  .alert {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    font-size: 0.9rem;
+    position: relative;
+  }
+  
+  .alert-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+  }
+  
+  .alert-error {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+  }
+  
+  .alert-info {
+    color: #055160;
+    background-color: #cfe2ff;
+    border-color: #b3d4fc;
+  }
+  
+  .btn-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    opacity: 0.5;
+  }
+  
+  .btn-close:hover {
+    opacity: 1;
+  }
+  
+  .fade.show {
+    opacity: 1;
+  }
+</style>
+{% endblock %}
 
-      const input1 = document.getElementById('inp_1')
-      const input2 = document.getElementById('inp_2')
-
-      const span1 = document.getElementById('span_1')
-      const span2 = document.getElementById('span_2')
-
-      span1.addEventListener( 'click', opCl1)
-      span2.addEventListener( 'click', opCl2)
+{% block content %}
+<div class="register-container">
+  <section class="wrapper">
+    <div class="form signup">
+      <header>Ro'yxatdan o'tish</header>
       
-
-
-      function opCl1() {
-          if(input1.type === "password") {
-            input1.type = "text"
-            span1.textContent = "YASHIRISH"
-            span1.style.color = "#3498db"
-          } else {
-            input1.type = "password"
-            span1.textContent = "KO'RISH"
-            span1.style.color = "#222"
-          }
-      }
+      <!-- Messages -->
+      {% if messages %}
+        <div class="messages-container">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              <i class="fas fa-{% if message.tags == 'error' %}exclamation-triangle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %} me-2"></i>
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
       
-      function opCl2() {
-        if(input2.type === "password") {
-          input2.type = "text"
-          span2.textContent = "YASHIRISH"
-          span2.style.color = "#3498db"
-        } else {
-          input2.type = "password"
-          span2.textContent = "KO'RISH"
-          span2.style.color = "#222"
-        }
+      <form action="#" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="input-group">
+          <i class="fas fa-user-tag input-icon"></i>
+          <input type="text" name="username" placeholder="Foydalanuvchi nomi" autocomplete="off" required>
+        </div>
+        <div class="input-group">
+          <i class="fas fa-id-badge input-icon"></i>
+          <input type="text" name="last_name" placeholder="Familiyangiz" autocomplete="off" required>
+        </div>
+        <div class="input-group">
+          <i class="fas fa-user input-icon"></i>
+          <input type="text" name="first_name" placeholder="Ismingiz" autocomplete="off" required>
+        </div>
+        <div class="input-group">
+          <i class="fas fa-users input-icon"></i>
+          <input type="text" name="sharif" placeholder="Sharifingiz" autocomplete="off" required>
+        </div>
+        <div class="field">
+          <input id="inp_1" class="pass-key" type="password" name="password1" placeholder=" Parol kiriting (kamida 8 ta belgi)" pattern=".{8,}" title="Belgilar soni 8-tadan kam bo'lmasligi kerak!" autocomplete="new-password" required>
+          <span id="span_1" class="show"><i class="fas fa-eye"></i></span>
+        </div>
+        <div class="field">
+          <input id="inp_2" class="pass-key" type="password" name="password2" placeholder=" Parolni qayta kiriting" pattern=".{8,}" title="Belgilar soni 8-tadan kam bo'lmasligi kerak!" autocomplete="new-password" required>
+          <span id="span_2" class="show"><i class="fas fa-eye"></i></span>
+        </div>
+        <input type="submit" value=" Ro'yxatdan o'tish" />
+        <a href="{% url 'kirish' %}"> Akkauntingiz bormi? Kirish</a>
+      </form>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  const input1 = document.getElementById('inp_1');
+  const input2 = document.getElementById('inp_2');
+  const span1 = document.getElementById('span_1');
+  const span2 = document.getElementById('span_2');
+
+  span1.addEventListener('click', opCl1);
+  span2.addEventListener('click', opCl2);
+
+  function opCl1() {
+    const icon = span1.querySelector('i');
+    if(input1.type === "password") {
+      input1.type = "text";
+      icon.className = "fas fa-eye-slash";
+      span1.style.color = "#764ba2";
+    } else {
+      input1.type = "password";
+      icon.className = "fas fa-eye";
+      span1.style.color = "#667eea";
     }
-    </script>
+  }
+  
+  function opCl2() {
+    const icon = span2.querySelector('i');
+    if(input2.type === "password") {
+      input2.type = "text";
+      icon.className = "fas fa-eye-slash";
+      span2.style.color = "#764ba2";
+    } else {
+      input2.type = "password";
+      icon.className = "fas fa-eye";
+      span2.style.color = "#667eea";
+    }
+  }
 
-  </body>
-</html>
+  // Form animation on load
+  document.addEventListener('DOMContentLoaded', function() {
+    const wrapper = document.querySelector('.wrapper');
+    if(wrapper) {
+      wrapper.style.opacity = '0';
+      wrapper.style.transform = 'translateY(20px)';
+      
+      setTimeout(() => {
+        wrapper.style.transition = 'all 0.6s ease';
+        wrapper.style.opacity = '1';
+        wrapper.style.transform = 'translateY(0)';
+      }, 100);
+    }
+    
+    // Alert close functionality
+    const closeButtons = document.querySelectorAll('.btn-close');
+    closeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const alert = this.closest('.alert');
+        if (alert) {
+          alert.style.opacity = '0';
+          alert.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            alert.remove();
+          }, 300);
+        }
+      });
+    });
+    
+    // Auto hide success messages after 5 seconds
+    const successAlerts = document.querySelectorAll('.alert-success');
+    successAlerts.forEach(alert => {
+      setTimeout(() => {
+        if (alert) {
+          alert.style.opacity = '0';
+          alert.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            alert.remove();
+          }, 300);
+        }
+      }, 5000);
+    });
+  });
+</script>
+{% endblock %}

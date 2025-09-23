@@ -1,65 +1,49 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="shortcut icon" href="{% static '/img/logo.png' %}" type="image/x-icon">
-    <link rel="stylesheet" href="{% static '/main.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Talabalar ro'yxati</title>
-</head>
-<body>
-    
-    <footer class="mt-5 p-0 m-0">
-        <div class="container">
-            <div class="row py-5">
-                <div class="col-lg-4 col-md-12">
-                    <div class=" row logo mb-4">
-                        <div class="col-2">
-                            <span class="img-bg">
-                                <img src="{% static '/img/logo.png' %}" alt="kspi logotip">
-                            </span>
-                        </div>
-                        <h5 class="col-9">malakaviy.kspi.uz</h5>
+<footer class="footer">
+    <div class="container">
+        <div class="row py-3">
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="footer-brand mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{% static 'img/logo.png' %}" alt="Qo'qon davlat universiteti Logo" class="footer-logo me-3">
+                        <h5 class="mb-0">Qo'qon davlat universiteti malakaviy tizim</h5>
                     </div>
-                    <p>"Tadqiqotchilarga malakaviy imtihon asosida ko'rsatiladigan xizmatlar hissobini yuritish axborot tizimi" dasturiy majmuasi</p>
                 </div>
-                <div class="col-lg-4 col-md-6 connect">
-                    <h4>Bog'lanish</h4>
-                    <p>Ishonch telefoni: <a href="tel:+998908565335">+998 (90) 856-53-35</a></p>
-                    <p>Qo'qon shahar, Turon ko'chasi, 23-uy</p>
-                    <a href="https://kspi.uz/">www.kspi.uz</a>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <h4>Bizning ijtimoiy tarmoqlar</h4>
-                    <a href="https://www.facebook.com/kspi.uz.56" class="socials">
-                        <i class="fa-brands fa-facebook"></i>
-                        <p>Facebook</p>
-                    </a>
-                    <a href="https://t.me/kspi_official" class="socials">
-                        <i class="fa-brands fa-telegram"></i>
-                        <p>Telegram</p>
-                    </a>
-                    <a href="https://www.instagram.com/kspi_uz/" class="socials">
-                        <i class="fa-brands fa-instagram"></i>
-                        <p>Instagram</p>
-                    </a>
-                    <a href="https://www.youtube.com/channel/UC6ThR8cLnJmdWDGDz9PR85Q/featured" class="socials">
-                        <i class="fa-brands fa-youtube"></i>
-                        <p>YouTube</p>
-                    </a>
-                </div>
-                
+                <p class="footer-description">
+                    "Tadqiqotchilarga malakaviy imtihon asosida ko'rsatiladigan xizmatlar hisobini yuritish axborot tizimi" dasturiy majmuasi
+                </p>
             </div>
-            <h5 class="col text-center">2023 &#169 KSPI IT-park</h5>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <h4 class="footer-title">Bog'lanish</h4>
+                <div class="footer-contact">
+                    <p><i class="fas fa-phone me-2"></i>Ishonch telefoni: <a href="tel:+998908565335">+998 (90) 856-53-35</a></p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Qo'qon shahar, Turon ko'chasi, 23-uy</p>
+                    <p><i class="fas fa-globe me-2"></i><a href="https://kokandsu.uz/" target="_blank">www.kokandsu.uz</a></p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <h4 class="footer-title">Ijtimoiy tarmoqlar</h4>
+                <div class="footer-socials">
+                    <a href="https://t.me/kspi_official" class="footer-social" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                        <span>Telegram</span>
+                    </a>
+                    <a href="https://www.youtube.com/channel/UC6ThR8cLnJmdWDGDz9PR85Q/featured" class="footer-social" target="_blank">
+                        <i class="fab fa-youtube"></i>
+                        <span>YouTube</span>
+                    </a>
+                </div>
+            </div>
         </div>
-        
-    </footer>  
+    </div>
     
-    
-    <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-</body>
-</html>
+    <div class="footer-bottom">
+        <div class="container-fluid">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2023-{% now "Y" %} Qo'qon davlat universiteti IT-park</p>
+            </div>
+        </div>
+    </div>
+</footer>

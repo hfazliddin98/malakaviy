@@ -1,0 +1,1005 @@
+{% extends 'asosiy/base.html' %}
+{% load static %}
+
+{% block title %}Hujjat Yuklash - Malakaviy Tizim{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'fayl.css' %}">
+<style>
+/* Zamonaviy Upload Form Styles */
+:root {
+    --upload-primary: #667eea;
+    --upload-secondary: #764ba2;
+    --upload-success: #10b981;
+    --upload-warning: #f59e0b;
+    --upload-danger: #ef4444;
+    --upload-light: #f8fafc;
+    --upload-dark: #1e293b;
+    --upload-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --upload-shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.upload-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    padding: 1rem 0;
+}
+
+.upload-hero {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.upload-hero h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--upload-primary);
+    margin-bottom: 0.75rem;
+}
+
+.upload-hero p {
+    font-size: 1rem;
+    color: #64748b;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.upload-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--upload-shadow-lg);
+    border: none;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.upload-card-header {
+    background: linear-gradient(135deg, var(--upload-primary), var(--upload-secondary));
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+}
+
+.upload-card-header .d-flex {
+    align-items: center !important;
+    height: auto;
+    min-height: 60px;
+}
+
+.upload-card-header .upload-card-title {
+    flex: 1;
+    text-align: left;
+    margin: 0;
+}
+
+.upload-card-header .text-center {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-card-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+.upload-card-title {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.upload-card-body {
+    padding: 1.5rem;
+}
+
+.timer-section {
+    padding: 1rem;
+}
+
+.timer-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.timer-box {
+    padding: 0.75rem;
+    text-align: center;
+    box-shadow: var(--upload-shadow);
+    min-width: 80px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-box:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--upload-shadow-lg);
+}
+
+.timer-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+}
+
+.timer-label {
+    font-size: 0.875rem;
+    color: white;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+/* Header Timer Styles */
+.timer-display-small {
+    display: inline-flex;
+    gap: 0.1rem;
+    align-items: center;
+    font-family: 'Courier New', monospace;
+    padding: 0.4rem 0.8rem;
+    white-space: nowrap;
+}
+
+.timer-box-small {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+}
+
+.timer-number-small {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+    min-width: 22px;
+    text-align: center;
+}
+
+.timer-label-small {
+    font-size: 0.75rem;
+    color: white;
+    font-weight: 500;
+    margin-right: 0.3rem;
+}
+
+.status-badge-small {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.form-section {
+    margin-bottom: 1.5rem;
+}
+
+.form-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--upload-dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.form-section-title::before {
+    content: '';
+    width: 3px;
+    height: 1.2rem;
+    background: linear-gradient(to bottom, var(--upload-primary), var(--upload-secondary));
+    border-radius: 2px;
+}
+
+.form-section .row {
+    --bs-gutter-x: 1rem;
+    margin-bottom: 0;
+}
+
+.form-section .col-md-6,
+.form-section .col-12 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.upload-form-group {
+    margin-bottom: 0.75rem;
+}
+
+.upload-form-label {
+    font-weight: 600;
+    color: var(--upload-dark);
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.upload-form-control {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    background: #fafbfc;
+    width: 100%;
+    height: 38px;
+}
+
+.upload-form-control:focus {
+    border-color: var(--upload-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background: white;
+}
+
+.upload-form-control:hover {
+    border-color: #cbd5e1;
+}
+
+.readonly-field {
+    background: #f8fafc !important;
+    color: #475569;
+    cursor: not-allowed;
+    border-color: #e2e8f0 !important;
+}
+
+.readonly-field:hover,
+.readonly-field:focus {
+    border-color: #e2e8f0 !important;
+    box-shadow: none !important;
+}
+
+input[type="file"].upload-form-control {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    height: 36px;
+    border: 1px solid #d1d5db;
+}
+
+input[type="file"].upload-form-control::-webkit-file-upload-button {
+    background: linear-gradient(135deg, var(--upload-primary), var(--upload-secondary));
+    border: none;
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+select.upload-form-control {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.85rem;
+    height: 38px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.file-upload-area {
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    background: #fafbfc;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.file-upload-area:hover {
+    border-color: var(--upload-primary);
+    background: #f0f9ff;
+}
+
+.file-upload-area.dragover {
+    border-color: var(--upload-success);
+    background: #f0fdf4;
+}
+
+.file-upload-icon {
+    font-size: 3rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+}
+
+.file-upload-text {
+    color: #64748b;
+    margin-bottom: 0.5rem;
+}
+
+.file-upload-hint {
+    font-size: 0.875rem;
+    color: #94a3b8;
+}
+
+.upload-btn {
+    background: linear-gradient(135deg, var(--upload-primary), var(--upload-secondary));
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.upload-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.upload-btn:hover::before {
+    left: 100%;
+}
+
+.upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--upload-shadow-lg);
+}
+
+.upload-btn:active {
+    transform: translateY(0);
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-success {
+    color: white;
+}
+
+.status-danger {
+    color: white;
+}
+
+.alert-modern {
+    border: none;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-left: 4px solid;
+}
+
+.alert-warning-modern {
+    background: rgba(245, 158, 11, 0.1);
+    border-left-color: var(--upload-warning);
+    color: #92400e;
+}
+
+.access-denied {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--upload-shadow-lg);
+}
+
+.access-denied-icon {
+    font-size: 4rem;
+    color: var(--upload-danger);
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .col-10 {
+        flex: 0 0 95%;
+        max-width: 95%;
+    }
+    
+    .upload-hero h1 {
+        font-size: 1.75rem;
+    }
+    
+    .upload-card-body {
+        padding: 1rem 0.75rem;
+    }
+    
+    .timer-display {
+        gap: 1rem;
+    }
+    
+    .timer-box {
+        min-width: 70px;
+        padding: 0.75rem;
+    }
+    
+    .timer-number {
+        font-size: 1.5rem;
+    }
+    
+    .timer-display-small {
+        padding: 0.3rem 0.6rem;
+        gap: 0.05rem;
+    }
+    
+    .timer-number-small {
+        font-size: 0.95rem;
+        min-width: 20px;
+    }
+    
+    .upload-form-control {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.5rem;
+        height: 36px;
+    }
+    
+    input[type="file"].upload-form-control {
+        font-size: 0.75rem;
+        height: 34px;
+    }
+    
+    .upload-form-label {
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .timer-label-small {
+        font-size: 0.65rem;
+        margin-right: 0.2rem;
+    }
+    
+    .upload-card-header .d-flex {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+        align-items: center !important;
+    }
+    
+    .upload-card-header .upload-card-title {
+        text-align: center;
+        flex: none;
+    }
+    
+    .upload-card-header .text-center {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* File Upload Animation */
+.file-selected {
+    animation: fileUploaded 0.5s ease;
+}
+
+@keyframes fileUploaded {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Loading Animation */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Progress Bar */
+.upload-progress {
+    background: rgba(255, 255, 255, 0.2);
+    height: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.upload-progress-bar {
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="upload-container">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-10">
+        <!-- Hero Section -->
+        <div class="upload-hero">
+            <h1>
+                <i class="fas fa-cloud-upload-alt me-3"></i>
+                Hujjatlarni Yuklash
+            </h1>
+            <p>Malakaviy imtihon uchun kerakli hujjatlaringizni xavfsiz tarzda yuklang</p>
+        </div>
+
+
+
+        <!-- Upload Form -->
+        {% if can_upload %}
+        <div class="upload-card">
+            <div class="upload-card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="upload-card-title mb-0">
+                        <i class="fas fa-file-upload me-2"></i>
+                        Hujjatlar yuklash formasi
+                    </h3>
+                    
+                    <!-- Timer in Header -->
+                    {% if deadline %}
+                    <div class="text-center">
+                        <div class="timer-display-small">
+                            <div class="timer-box-small">
+                                <div id="days" class="timer-number-small">--</div>
+                                <span class="timer-label-small">kun</span>
+                            </div>
+                            <div class="timer-box-small">
+                                <div id="hours" class="timer-number-small">--</div>
+                                <span class="timer-label-small">soat</span>
+                            </div>
+                            <div class="timer-box-small">
+                                <div id="minutes" class="timer-number-small">--</div>
+                                <span class="timer-label-small">daq</span>
+                            </div>
+                            <div class="timer-box-small">
+                                <div id="seconds" class="timer-number-small">--</div>
+                                <span class="timer-label-small">sek</span>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            {% if can_upload %}
+                                <span class="status-badge-small status-success">
+                                </span>
+                            {% else %}
+                                <span class="status-badge-small status-danger">
+                                    <i class="fas fa-times-circle"></i>
+                                    Tugagan
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="upload-card-body">
+                <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                    {% csrf_token %}
+                    
+                    <!-- Personal Information Section -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">
+                            <i class="fas fa-user"></i>
+                            Shaxsiy ma'lumotlar
+                        </h4>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="upload-form-group">
+                                    <label for="telefon" class="upload-form-label">
+                                        <i class="fas fa-phone"></i>
+                                        Telefon raqamingiz *
+                                    </label>
+                                    <input type="tel" class="upload-form-control" id="telefon" name="telefon" placeholder="+998 __ ___ __ __" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="upload-form-group">
+                                    <label for="fan_yonalishi" class="upload-form-label">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        Fan yo'nalishi *
+                                    </label>
+                                    <select class="upload-form-control" id="fan_yonalishi" name="fan_yonalishi" required>
+                                        <option value="" disabled selected>Fan yo'nalishini tanlang</option>
+                                        {% for fan in fan_yonalishlari %}
+                                            <option value="{{ fan.id }}">{{ fan.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Upload Section -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">
+                            <i class="fas fa-paperclip"></i>
+                            Kerakli hujjatlar
+                        </h4>
+                        
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="upload-form-group">
+                                    <label class="upload-form-label">
+                                        <i class="fas fa-id-card"></i>
+                                        1. Pasport nusxasi
+                                    </label>
+                                    <div class="file-upload-area" onclick="document.getElementById('pasport').click()">
+                                        <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                                        <div class="file-upload-text">Faylni tanlang yoki shu yerga tashlang</div>
+                                        <div class="file-upload-hint">Maksimal: 4MB | Har qanday format</div>
+                                        <input type="file" id="pasport" name="pasport" class="d-none" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="upload-form-group">
+                                    <label class="upload-form-label">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        2. Diplomlar
+                                    </label>
+                                    <div class="file-upload-area" onclick="document.getElementById('diplom').click()">
+                                        <i class="fas fa-certificate file-upload-icon"></i>
+                                        <div class="file-upload-text">Diplom faylini yuklang</div>
+                                        <div class="file-upload-hint">PDF, DOC, DOCX, WPS</div>
+                                        <input type="file" id="diplom" name="diplom" accept=".pdf,.doc,.docx,.wps" class="d-none" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="upload-form-group">
+                                    <label class="upload-form-label">
+                                        <i class="fas fa-file-alt"></i>
+                                        3. Ariza yoki yo'llanma xat
+                                    </label>
+                                    <div class="file-upload-area" onclick="document.getElementById('ariza').click()">
+                                        <i class="fas fa-envelope file-upload-icon"></i>
+                                        <div class="file-upload-text">Ariza faylini yuklang</div>
+                                        <div class="file-upload-hint">PDF, DOC, DOCX, WPS</div>
+                                        <input type="file" id="ariza" name="ariza" accept=".pdf,.doc,.docx,.wps" class="d-none" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="upload-form-group">
+                                    <label class="upload-form-label">
+                                        <i class="fas fa-info-circle"></i>
+                                        4. Ma'lumotnoma (объективка)
+                                    </label>
+                                    <div class="file-upload-area" onclick="document.getElementById('malumotnoma').click()">
+                                        <i class="fas fa-clipboard-list file-upload-icon"></i>
+                                        <div class="file-upload-text">Ma'lumotnoma faylini yuklang</div>
+                                        <div class="file-upload-hint">PDF, DOC, DOCX, WPS</div>
+                                        <input type="file" id="malumotnoma" name="malumotnoma" accept=".pdf,.doc,.docx,.wps" class="d-none" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="upload-form-group">
+                                    <label class="upload-form-label">
+                                        <i class="fas fa-list-alt"></i>
+                                        5. Minimum anketasi
+                                    </label>
+                                    <div class="file-upload-area" onclick="document.getElementById('anketa').click()">
+                                        <i class="fas fa-poll file-upload-icon"></i>
+                                        <div class="file-upload-text">Anketa faylini yuklang</div>
+                                        <div class="file-upload-hint">PDF, DOC, DOCX, WPS</div>
+                                        <input type="file" id="anketa" name="anketa" accept=".pdf,.doc,.docx,.wps" class="d-none" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="upload-form-group">
+                                    <label class="upload-form-label">
+                                        <i class="fas fa-copy"></i>
+                                        6. Kengash qarori ko'chirmasi
+                                    </label>
+                                    <div class="file-upload-area" onclick="document.getElementById('kochirma').click()">
+                                        <i class="fas fa-stamp file-upload-icon"></i>
+                                        <div class="file-upload-text">Qaror ko'chirmasi faylini yuklang</div>
+                                        <div class="file-upload-hint">PDF, DOC, DOCX, WPS</div>
+                                        <input type="file" id="kochirma" name="kochirma" accept=".pdf,.doc,.docx,.wps" class="d-none" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="upload-form-group">
+                                    <label class="upload-form-label">
+                                        <i class="fas fa-list"></i>
+                                        7. Ilmiy ishlar ro'yxati
+                                    </label>
+                                    <div class="file-upload-area" onclick="document.getElementById('royhat').click()">
+                                        <i class="fas fa-book file-upload-icon"></i>
+                                        <div class="file-upload-text">Ilmiy ishlar ro'yxati faylini yuklang</div>
+                                        <div class="file-upload-hint">PDF, DOC, DOCX, WPS</div>
+                                        <input type="file" id="royhat" name="royhat" accept=".pdf,.doc,.docx,.wps" class="d-none" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="upload-btn" id="submitBtn">
+                            <span class="btn-text">
+                                <i class="fas fa-rocket me-2"></i>
+                                Hujjatlarni yuborish
+                            </span>
+                            <span class="btn-loading d-none">
+                                <span class="loading-spinner me-2"></span>
+                                Yuklanmoqda...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <!-- Access Denied -->
+        <div class="access-denied">
+            <div class="access-denied-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h3 style="color: var(--upload-danger); margin-bottom: 1rem;">Yuklash muddati tugagan</h3>
+            <p style="color: #64748b; font-size: 1.1rem; margin-bottom: 2rem;">
+                Hujjat yuklash muddati tugagan. Keyingi muddatni kuting yoki admin bilan bog'laning.
+            </p>
+            <a href="{% url 'home' %}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-home me-2"></i>
+                Bosh sahifaga qaytish
+            </a>
+        </div>
+        {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Timer JavaScript - deadline dan
+    const deadline = '{% if deadline %}{{ deadline.deadline_sana|date:"Y-m-d\TH:i:s" }}{% else %}2025-12-31T23:59:59{% endif %}';
+
+    function timeRemainig(endtime) {
+        let days, hours, minutes, seconds;
+        const now = new Date();
+        const targetDate = new Date(endtime);
+        const timer = targetDate.getTime() - now.getTime();
+
+        if (timer <= 0) {
+            days = hours = minutes = seconds = 0;
+        } else {
+            days = Math.floor(timer / (1000 * 60 * 60 * 24));
+            hours = Math.floor((timer % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            minutes = Math.floor((timer % (1000 * 60 * 60)) / (1000 * 60));
+            seconds = Math.floor((timer % (1000 * 60)) / 1000);
+        }
+
+        return {timer, days, hours, minutes, seconds};
+    }
+
+    function getZero(num) {
+        return num >= 0 && num < 10 ? '0' + num : num;
+    }
+
+    function updateTimer() {
+        const t = timeRemainig(deadline);
+        
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        
+        if (daysEl) daysEl.innerHTML = getZero(t.days);
+        if (hoursEl) hoursEl.innerHTML = getZero(t.hours);
+        if (minutesEl) minutesEl.innerHTML = getZero(t.minutes);
+        if (secondsEl) secondsEl.innerHTML = getZero(t.seconds);
+
+        if (t.timer <= 0) {
+            // Vaqt tugaganda form'ni o'chirish
+            const form = document.querySelector('form');
+            if (form) {
+                form.style.display = 'none';
+            }
+            
+            // Xabar ko'rsatish
+            const container = document.querySelector('.container');
+            if (container) {
+                container.innerHTML = `
+                    <div class="alert alert-danger text-center">
+                        <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                        <h4>Yuklash muddati tugagan</h4>
+                        <p class="mb-0">Hujjat yuklash muddati tugagan.</p>
+                        <a href="/" class="btn btn-outline-primary mt-3">
+                            <i class="fas fa-home me-1"></i>
+                            Bosh sahifaga qaytish
+                        </a>
+                    </div>
+                `;
+            }
+        }
+    }
+
+    // Timer'ni boshlash
+    document.addEventListener('DOMContentLoaded', function() {
+        updateTimer(); // Darhol bajarish
+        setInterval(updateTimer, 1000); // Har soniyada yangilash
+    });
+
+    // Enhanced File Upload with Modern UX
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        const form = document.getElementById('uploadForm');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        // File input handlers
+        fileInputs.forEach(function(input) {
+            const uploadArea = input.closest('.file-upload-area');
+            
+            input.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    // Pasport uchun alohida hajm tekshiruvi
+                    if (this.name === 'pasport' && file.size > 4 * 1024 * 1024) {
+                        showAlert('Pasport fayli 4MB dan katta bo\'lmasligi kerak!', 'error');
+                        this.value = '';
+                        return;
+                    }
+                    
+                    // Boshqa fayllar uchun hajm tekshiruvi
+                    if (file.size > 10 * 1024 * 1024) {
+                        showAlert('Fayl hajmi 10MB dan katta bo\'lmasligi kerak!', 'error');
+                        this.value = '';
+                        return;
+                    }
+                    
+                    // Format tekshiruvi (pasport bundan mustasno)
+                    if (this.name !== 'pasport') {
+                        const allowedExtensions = ['pdf', 'doc', 'docx', 'wps'];
+                        const fileExtension = file.name.split('.').pop().toLowerCase();
+                        
+                        if (!allowedExtensions.includes(fileExtension)) {
+                            showAlert('Faqat PDF, DOC, DOCX, WPS formatdagi fayllar qabul qilinadi!', 'error');
+                            this.value = '';
+                            return;
+                        }
+                    }
+                    
+                    // File selected animation
+                    uploadArea.classList.add('file-selected');
+                    uploadArea.style.borderColor = 'var(--upload-success)';
+                    uploadArea.style.background = '#f0fdf4';
+                    
+                    // Update file name display
+                    const fileNameDisplay = uploadArea.querySelector('.file-upload-text');
+                    fileNameDisplay.textContent = file.name;
+                    fileNameDisplay.style.color = 'var(--upload-success)';
+                    
+                    // Add success icon
+                    const icon = uploadArea.querySelector('.file-upload-icon');
+                    icon.className = 'fas fa-check-circle file-upload-icon';
+                    icon.style.color = 'var(--upload-success)';
+                    
+                    setTimeout(() => uploadArea.classList.remove('file-selected'), 500);
+                }
+            });
+            
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    input.files = files;
+                    input.dispatchEvent(new Event('change'));
+                }
+            });
+        });
+        
+        // Form submission with loading state
+        if (form && submitBtn) {
+            form.addEventListener('submit', function(e) {
+                const btnText = submitBtn.querySelector('.btn-text');
+                const btnLoading = submitBtn.querySelector('.btn-loading');
+                
+                btnText.classList.add('d-none');
+                btnLoading.classList.remove('d-none');
+                submitBtn.disabled = true;
+                
+                // Progress simulation (optional)
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 15;
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                        progress = 100;
+                    }
+                }, 200);
+            });
+        }
+        
+        // Phone number formatting
+        const phoneInput = document.getElementById('telefon');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.startsWith('998')) {
+                    value = '+' + value;
+                    value = value.replace(/(\+998)(\d{2})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5');
+                } else if (value.length > 0) {
+                    value = '+998 ' + value;
+                }
+                e.target.value = value;
+            });
+        }
+    });
+    
+    // Alert function for better UX
+    function showAlert(message, type = 'info') {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.body.appendChild(alertDiv);
+        
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.parentNode.removeChild(alertDiv);
+            }
+        }, 5000);
+    }
+</script>
+{% endblock %}

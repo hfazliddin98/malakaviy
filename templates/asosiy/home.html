@@ -1,66 +1,148 @@
+{% extends 'asosiy/base.html' %}
 {% load static %}
 
+{% block title %}Qo'qon davlat universiteti - Malakaviy Tizim{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'fayl.css' %}">
+{% endblock %}
 
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <!-- Favicon -->
-            <link rel="shortcut icon" href="{% static '/img/logo.png' %}" type="image/x-icon">
-
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-            <!-- BOOTSTRAP -->
-            <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
-
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-            <link rel="stylesheet" href="{% static '/home.css' %}">
-            <link rel="stylesheet" href="{% static '/main.css' %}">
-            
-            
-
-            <title>Home</title>
-        </head>
-        <body class="p-0 m-0">
-            {% if user.is_authenticated %}
-                {% if user.is_superuser %}                 
-                    {% include 'asosiy/navbar.html' %} 
-                    {% include 'asosiy/yuklash.html' %}  
-                    {% include 'asosiy/futer.html' %}                                  
-                {% else%}                    
-                    {% include 'asosiy/navbar.html' %}
-                    <h4 class="text-center" style="color: #6ae4de;">{{habar}}</h4>                    
-                    {% include 'asosiy/fayl.html' %}                    
-                    {% include 'asosiy/futer.html' %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <!-- Admin yoki superuser uchun fayl yuklash va boshqarish -->
+        {% if user.is_superuser or user.rol == 'Admin' %}
+            {% include 'asosiy/yuklash_section.html' %}
+        {% else %}
+            <!-- Oddiy foydalanuvchi uchun faqat o'z fayllari -->
+            {% include 'asosiy/fayl_section.html' %}
+        {% endif %}
+    {% else %}
+        <!-- Zamonaviy kirish sahifasi -->
+        {% include 'asosiy/kirish.html' %}
+        
+        <!-- Namunalar bo'limi (ixtiyoriy) -->
+        <section class="samples-section py-5" style="background: var(--background-light);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="text-center mb-5" style="color: var(--primary-color); font-weight: 700;">
+                            Hujjat namunalari
+                        </h2>
+                    </div>
+                </div>
+                {% if namunalar %}
+                    <div class="row g-4">
+                        {% for namuna in namunalar %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm border-0">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">
+                                            <i class="fas fa-file-alt me-2"></i>
+                                            Namuna hujjatlari
+                                        </h5>
+                                        <p class="card-text text-muted">
+                                            Ariza topshirish uchun kerakli hujjatlarning namuna ko'rinishlari
+                                        </p>
+                                        <button class="btn btn-outline-primary btn-sm namuna-toggle" data-bs-toggle="collapse" data-bs-target="#namuna-{{ forloop.counter }}">
+                                            <i class="fas fa-eye me-1"></i>
+                                            Ko'rish
+                                        </button>
+                                    </div>
+                                    <div class="collapse" id="namuna-{{ forloop.counter }}">
+                                        <div class="card-footer bg-light border-0">
+                                            <div class="row g-2">
+                                                {% if namuna.diplom %}
+                                                    <div class="col-6">
+                                                        <a href="{{ namuna.diplom.url }}" target="_blank" class="btn btn-sm btn-light w-100">
+                                                            <i class="fas fa-graduation-cap me-1"></i>
+                                                            Diplom
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                                {% if namuna.ariza %}
+                                                    <div class="col-6">
+                                                        <a href="{{ namuna.ariza.url }}" target="_blank" class="btn btn-sm btn-light w-100">
+                                                            <i class="fas fa-file-text me-1"></i>
+                                                            Ariza
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                                {% if namuna.malumotnoma %}
+                                                    <div class="col-6">
+                                                        <a href="{{ namuna.malumotnoma.url }}" target="_blank" class="btn btn-sm btn-light w-100">
+                                                            <i class="fas fa-info-circle me-1"></i>
+                                                            Ma'lumotnoma
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                                {% if namuna.anketa %}
+                                                    <div class="col-6">
+                                                        <a href="{{ namuna.anketa.url }}" target="_blank" class="btn btn-sm btn-light w-100">
+                                                            <i class="fas fa-clipboard-list me-1"></i>
+                                                            Anketa
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                                {% if namuna.kochirma %}
+                                                    <div class="col-6">
+                                                        <a href="{{ namuna.kochirma.url }}" target="_blank" class="btn btn-sm btn-light w-100">
+                                                            <i class="fas fa-copy me-1"></i>
+                                                            Ko'chirma
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                                {% if namuna.royhat %}
+                                                    <div class="col-6">
+                                                        <a href="{{ namuna.royhat.url }}" target="_blank" class="btn btn-sm btn-light w-100">
+                                                            <i class="fas fa-list me-1"></i>
+                                                            Ro'yxat
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Hozircha namuna hujjatlari yuklanmagan</p>
+                    </div>
                 {% endif %}
-            {% else%}
-                {% include 'asosiy/navbar.html' %}
-                {% include 'asosiy/kirish.html' %}
-                {% include 'asosiy/namuna.html' %}
-                {% include 'asosiy/futer.html' %}
-            {% endif %}       
+            </div>
+        </section>
+    {% endif %}       
+{% endblock %}
 
-            <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% block extra_js %}
+<script>
+    // NAMUNALAR
+    const texts = document.querySelectorAll('.namuna-text')
 
-            <script>
-                // NAMUNALAR
-                const texts = document.querySelectorAll('.namuna-text')
-                const textImgs = document.querySelectorAll('.namuna-img')
-
-                texts.forEach((text) => {
-                    text.addEventListener('click', (e)=> {
-                        if(e.target) {
-                            e.target.nextElementSibling.classList.toggle('namuna-img-active')
-                        }
-                    })
-                })
-            </script>
+    texts.forEach((text) => {
+        text.addEventListener('click', (e) => {
+            const currentText = e.currentTarget;
+            const nextImg = currentText.nextElementSibling;
+            const arrow = currentText.querySelector('::after') || currentText;
             
-        </body>
-        </html>
+            // Close all other accordion items
+            texts.forEach((otherText) => {
+                if (otherText !== currentText) {
+                    const otherImg = otherText.nextElementSibling;
+                    if (otherImg && otherImg.classList.contains('namuna-img-active')) {
+                        otherImg.classList.remove('namuna-img-active');
+                    }
+                }
+            });
+            
+            // Toggle current item
+            if (nextImg) {
+                nextImg.classList.toggle('namuna-img-active');
+            }
+        })
+    })
+</script>
+{% endblock %}

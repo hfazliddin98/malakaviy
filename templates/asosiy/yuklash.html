@@ -1,28 +1,13 @@
-     
+{% extends 'asosiy/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jo'natish</title>
 
-  <!-- LINKS -->
-  <link rel="stylesheet" href="{% static '/fayl.css' %}">
+{% block title %}Yuklash - Qo'qon davlat universiteti Malakaviy Tizim{% endblock %}
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'fayl.css' %}">
+{% endblock %}
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <!-- BOOTSTRAP -->
-  <link rel="shortcut icon" href="{% static '/img/logo.png' %}" type="image/x-icon">
-  
-  <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
-</head>
-<body>
+{% block content %}
 
   <main class="main h-100">
       <div class="container px-4 mh-100" id="sana-01">
@@ -37,7 +22,14 @@
           
           {% for i in page.object_list %} 
               <div class="container send my-2">
-                <span class="send-text">{{i.ism | title}} {{i.familya | title}} ariza malumotlarini yuklab olish</span>
+                <span class="send-text">
+                    {% if i.user %}
+                        {{i.user.first_name | title}} {{i.user.last_name | title}} 
+                    {% else %}
+                        Anonim foydalanuvchi
+                    {% endif %}
+                    ariza malumotlarini yuklab olish
+                </span>
                 <span class="d-none">                      
                 </span>
                 <a class="send-link button text-white" href="{% url 'link' i.pk%}">
@@ -84,24 +76,15 @@
               
       </div>
   </main>
-  <script>
-    const func = async () => {
-      const data = await document.querySelector('#sana-01')
-      let resualt = await data.innerHTML
-      await console.log(resualt);
-    }
-    func()
-  </script>
-   
-  <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% endblock %}
 
-  <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
-
-</body>
-</html>
-
-                
-
-
-
-                
+{% block extra_js %}
+<script>
+  const func = async () => {
+    const data = await document.querySelector('#sana-01')
+    let resualt = await data.innerHTML
+    await console.log(resualt);
+  }
+  func()
+</script>
+{% endblock %}

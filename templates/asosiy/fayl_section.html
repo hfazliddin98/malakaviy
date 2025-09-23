@@ -1,0 +1,129 @@
+{% load static %}
+<!-- Foydalanuvchi fayllari -->
+<div class="container mt-4 mb-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-folder-open me-2"></i>
+                        Sizning fayllaringiz
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if data %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th><i class="fas fa-user me-1"></i>Ism Familya</th>
+                                        <th><i class="fas fa-book me-1"></i>Fan</th>
+                                        <th><i class="fas fa-phone me-1"></i>Telefon</th>
+                                        <th><i class="fas fa-calendar me-1"></i>Sana</th>
+                                        <th><i class="fas fa-eye me-1"></i>Amallar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for fayl in page %}
+                                    <tr>
+                                        <td>
+                                            <strong>
+                                                {% if fayl.user %}
+                                                    {{ fayl.user.first_name }} {{ fayl.user.last_name }}
+                                                {% else %}
+                                                    Anonim foydalanuvchi
+                                                {% endif %}
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-info">{{ fayl.fan_yonalishi.name }}</span>
+                                        </td>
+                                        <td>
+                                            <i class="fas fa-phone-alt text-muted me-1"></i>
+                                            {{ fayl.telefon|default:"—" }}
+                                        </td>
+                                        <td>
+                                            <small class="text-muted">
+                                                <i class="fas fa-clock me-1"></i>
+                                                {{ fayl.sana|date:"d.m.Y H:i" }}
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'link' fayl.id %}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-eye me-1"></i>
+                                                Ko'rish
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Upload Action -->
+                        <div class="text-center mt-4 p-3 bg-light rounded">
+                            <a href="{% url 'yuklash' %}" class="btn btn-success">
+                                <i class="fas fa-plus-circle me-2"></i>
+                                Yangi hujjat yuklash
+                            </a>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        {% if page.has_other_pages %}
+                        <nav aria-label="Sahifalar">
+                            <ul class="pagination justify-content-center">
+                                {% if page.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page.previous_page_number }}">
+                                            <i class="fas fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                
+                                <li class="page-item active">
+                                    <span class="page-link">
+                                        {{ page.number }} / {{ page.paginator.num_pages }}
+                                    </span>
+                                </li>
+                                
+                                {% if page.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page.next_page_number }}">
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page.paginator.num_pages }}">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        {% endif %}
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Hali hech qanday fayl yuklamagansiz</h5>
+                            
+                            <div class="mt-4">
+                                <a href="{% url 'yuklash' %}" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-upload me-2"></i>
+                                    Hujjatlarni yuklash
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,52 +1,118 @@
+{% extends 'asosiy/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kirish</title>
-    <link rel="shortcut icon" href="{% static '/img/logo.png' %}" type="image/x-icon">
-    <link rel="stylesheet" href="{% static '/register.css' %}" />
-    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
-  </head>
-  <body>
 
-    <section class="wrapper active">
+{% block title %}Kirish - Qo'qon davlat universiteti Malakaviy Tizim{% endblock %}
 
-      <div class="form signup">
-        <header>Kirish</header>        
-        <form action="#" method="POST">
-          {% csrf_token %}
-          <input name="username" type="text" placeholder="Login">
-          
-          <div class="field">
-            <input class="pass-key" name="password" type="password" placeholder="Parol">
-            <span class="show">KO'RISH</span>
-          </div>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'login.css' %}">
+{% endblock %}
 
-          <input type="submit" value="Kirish" />
-          <a  href="{% url 'royhat' %}">Ro'yxatdan o'tish</a>
-        </form>
+{% block content %}
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <h1 class="login-title">Tizimga kirish</h1>
+        <p class="login-subtitle">Malakaviy tizimga xush kelibsiz</p>
       </div>
+      
+      <form class="login-form" action="{% url 'kirish' %}" method="POST">
+        {% csrf_token %}
+        
+        <!-- Messages -->
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+              {% if message.tags == 'error' %}
+                <i class="fas fa-exclamation-triangle"></i>
+              {% else %}
+                <i class="fas fa-check-circle"></i>
+              {% endif %}
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        
+        <div class="form-group">
+          <label for="username" class="form-label">
+            <i class="fas fa-user"></i>
+            Foydalanuvchi nomi
+          </label>
+          <input id="username" name="username" type="text" class="form-input" placeholder="Login kiriting" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password" class="form-label">
+            <i class="fas fa-lock"></i>
+            Parol
+          </label>
+          <div class="password-field">
+            <input id="password" class="form-input pass-key" name="password" type="password" placeholder="Parol kiriting" required>
+            <button type="button" class="password-toggle show">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
 
-      <script>
-        const input = document.querySelector(".pass-key")
-        const showBtn = document.querySelector(".show")
+        <button type="submit" class="login-btn">
+          <i class="fas fa-sign-in-alt"></i>
+          Kirish
+        </button>
+        
+        <div class="login-footer">
+          <p>Hali ro'yxatdan o'tmaganmisiz?</p>
+          <a href="{% url 'royhat' %}" class="register-link">
+            <i class="fas fa-user-plus"></i>
+            Ro'yxatdan o'tish
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
 
-        showBtn.addEventListener('click', ()=> {
-          if(input.type === "password") {
-            input.type = "text"
-            showBtn.textContent = "YASHIRISH"
-            showBtn.style.color = "#3498db"
-          } else {
-            input.type = "password"
-            showBtn.textContent = "KO'RISH"
-            showBtn.style.color = "#222"
-          }
-        })
-      </script>
-    </section>
-    <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  </body>
-</html>
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Password toggle functionality
+    const passwordInput = document.querySelector(".pass-key");
+    const toggleBtn = document.querySelector(".password-toggle");
+    
+    if(passwordInput && toggleBtn) {
+      const toggleIcon = toggleBtn.querySelector("i");
+      
+      toggleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        if(passwordInput.type === "password") {
+          passwordInput.type = "text";
+          toggleIcon.className = "fas fa-eye-slash";
+          toggleBtn.setAttribute('title', 'Parolni yashirish');
+        } else {
+          passwordInput.type = "password";
+          toggleIcon.className = "fas fa-eye";
+          toggleBtn.setAttribute('title', 'Parolni ko`rish');
+        }
+      });
+    }
+
+
+    // Form animation
+    const loginCard = document.querySelector('.login-card');
+    if(loginCard) {
+      loginCard.style.opacity = '0';
+      loginCard.style.transform = 'translateY(20px)';
+      
+      setTimeout(() => {
+        loginCard.style.transition = 'all 0.6s ease';
+        loginCard.style.opacity = '1';
+        loginCard.style.transform = 'translateY(0)';
+      }, 100);
+    }
+  });
+</script>
+{% endblock %}

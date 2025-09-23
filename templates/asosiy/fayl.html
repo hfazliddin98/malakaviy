@@ -1,25 +1,13 @@
+{% extends 'asosiy/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jo'natish</title>
 
-  <!-- LINKS -->
-  <link rel="stylesheet" href="{% static '/fayl.css' %}">
+{% block title %}Jo'natish - Qo'qon davlat universiteti Malakaviy Tizim{% endblock %}
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'fayl.css' %}">
+{% endblock %}
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <!-- BOOTSTRAP -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-</head>
-<body>
+{% block content %}
 
   <!-- Promotion -->
   <div class="promotion">
@@ -64,76 +52,69 @@
  
 
 
-  <!-- BOOTSTRAP JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+{% endblock %}
 
-  <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+{% block extra_js %}
+<script>
+  // DEADLINE
+  const deadline = '2024-05-21';
 
-  <!-- <script src="{% static '/js/sana.js' %}"></script> -->
-  <script>
+  function timeRemainig(endtime) {
+    let days, hours, minutes, seconds;
+    const timer = Date.parse(endtime) - Date.parse(new Date());
 
+    var inputs = document.querySelectorAll('input')
 
-    // DEADLINE
-    const deadline = '2024-05-21';
-
-    function timeRemainig(endtime) {
-      let days, hours, minutes, seconds;
-      const timer = Date.parse(endtime) - Date.parse(new Date());
-
-      var inputs = document.querySelectorAll('input')
-
-      if (timer <= 0 ) {
-        days = 0
-        hours = 0
-        minutes = 0
-        seconds = 0
-        inputs.forEach((input)=> {
-          input.disabled = true
-        })
-      } else {
-        days = Math.floor(timer/(1000*60*60*24))
-        hours = Math.floor((timer/(1000*60*60))%24)
-        minutes = Math.floor((timer/(1000*60))%60)
-        seconds = Math.floor((timer/1000)%60)
-      }
-
-      return {timer, days, hours, minutes, seconds}
+    if (timer <= 0 ) {
+      days = 0
+      hours = 0
+      minutes = 0
+      seconds = 0
+      inputs.forEach((input)=> {
+        input.disabled = true
+      })
+    } else {
+      days = Math.floor(timer/(1000*60*60*24))
+      hours = Math.floor((timer/(1000*60*60))%24)
+      minutes = Math.floor((timer/(1000*60))%60)
+      seconds = Math.floor((timer/1000)%60)
     }
 
-    function getZero(num) {
-      if (num >= 0 && num < 10) {
-        return num
-      }
-      else{
-        return num
+    return {timer, days, hours, minutes, seconds}
+  }
+
+  function getZero(num) {
+    if (num >= 0 && num < 10) {
+      return num
+    }
+    else{
+      return num
+    }
+  }
+
+  function setClock(selector, endtime) {
+    const  timer = document.querySelector(selector),
+    days = timer.querySelector('#days'),
+    hours = timer.querySelector('#hours'),
+    minutes = timer.querySelector('#minutes'),
+    seconds = timer.querySelector('#seconds'),
+    timeInterval = setInterval(updateClock, 1000)
+
+    updateClock()
+
+    function updateClock() {
+      const t = timeRemainig(endtime)
+
+      days.innerHTML = getZero(t.days)
+      hours.innerHTML = getZero(t.hours)
+      minutes.innerHTML = getZero(t.minutes)
+      seconds.innerHTML = getZero(t.seconds)
+
+      if (t.timer<=0) {
+        clearInterval(timeInterval)
       }
     }
-
-    function setClock(selector, endtime) {
-      const  timer = document.querySelector(selector),
-      days = timer.querySelector('#days'),
-      hours = timer.querySelector('#hours'),
-      minutes = timer.querySelector('#minutes'),
-      seconds = timer.querySelector('#seconds'),
-      timeInterval = setInterval(updateClock, 1000)
-
-      updateClock()
-
-      function updateClock() {
-        const t = timeRemainig(endtime)
-
-        days.innerHTML = getZero(t.days)
-        hours.innerHTML = getZero(t.hours)
-        minutes.innerHTML = getZero(t.minutes)
-        seconds.innerHTML = getZero(t.seconds)
-
-        if (t.timer<=0) {
-          clearInterval(timeInterval)
-        }
-      }
-    }
-    setClock('.timer', deadline)
- 
-  </script>
-</body>
-</html>
+  }
+  setClock('.timer', deadline)
+</script>
+{% endblock %}
